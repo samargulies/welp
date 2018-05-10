@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welp</title>
+</head>
+<body>
+    <div class="places">
+        {% if place_list %}
+            {% for place in place_list %}
+                <article class="place">
+                    <header>
+                        <h2 class="place__title">
+                            <a href="{% url 'places:detail' place.id %}">{{ place.title }}</a>
+                        </h2>
+                    </header>
+                    <div class="place__description">
+                        {{ place.description }}
+                    </div>
+                </article>
+            {% endfor %}
+        {% else %}
+            <p>No places found</p>
+        {% endif %}
+    </div>
+</body>
+</html>

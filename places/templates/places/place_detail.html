@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ place.title }} - Welp</title>
+</head>
+<body>
+    <div class="place-detail">
+        <article class="place">
+            <header>
+                <h2 class="place__title">
+                    {{ place.title }}
+                </h2>
+            </header>
+            {% if place.images %}
+            <div class="place__images">
+                {% for image in place.images.all %}
+                    <div class="place__image">
+                        <img src="{{ image.image.url }}" alt="{{ image.alt }}" />
+                        <footer>
+                            <div class="place__image__attribution">{{ image.attribution }}</div>
+                        </header>
+                    </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+                
+            <div class="place__description">
+                {{ place.description }}
+            </div>
+        </article>
+    </div>
+</body>
+</html>
