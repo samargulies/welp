@@ -82,3 +82,6 @@ class NewVisitorTest(LiveServerTestCase):
         
         self.assertEqual('Finish writing tests', False)
         
+    def test_can_add_place(self):
+        self.assertEqual('Write admin tests', False)
+        

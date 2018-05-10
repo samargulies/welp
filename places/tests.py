@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import resolve
+from django.contrib.gis.geos import Point
 
 from .models import Place, Image
 
@@ -21,6 +22,7 @@ class PlaceModelTest(TestCase):
         first_place = Place()
         first_place.title = 'place 1'
         first_place.description = 'description 1'
+        first_place.location = Point(-34.0001, 20.9999)
         first_place.save()
         
         second_place = Place()
@@ -30,10 +32,13 @@ class PlaceModelTest(TestCase):
         
         saved_places = Place.objects.all()
         self.assertEqual(saved_places.count(), 2)
-        self.assertEqual(saved_places[0].title, first_place.title)
-        self.assertEqual(saved_places[0].description, first_place.description)
-        self.assertEqual(saved_places[1].title, second_place.title)
-        self.assertEqual(saved_places[1].description, second_place.description)
+        self.assertEqual(saved_places[0].title, 'place 1')
+        self.assertEqual(saved_places[0].description, 'description 1')
+        self.assertEqual(saved_places[0].location.x, -34.0001)
+        self.assertEqual(saved_places[0].location.y, 20.9999)
+        self.assertEqual(saved_places[1].title, 'place 2')
+        self.assertEqual(saved_places[1].description, 'description 2')
+        self.assertEqual(saved_places[1].location, None)
 
 
 class ImagesModelTest(TestCase):
@@ -55,6 +60,18 @@ class ImagesModelTest(TestCase):
         self.assertEqual(saved_place_images[0].attribution, 'attribution 1')
         self.assertEqual(saved_place_images[1].title, 'image 2')
         self.assertEqual(saved_place_images[1].attribution, 'attribution 2')
+        
+        
+    # def test_image_ordering(self):
+    #
+    #     first_image = create_image("1")
+    #     second_image = create_image("2")
+    #     last_image = create_image("3")
+    #
+    #     new_place = Place.objects.create(title='place', description='description')
+    #     new_place.images.add(first_image, second_image, last_image)
+    #
+    #
         
         
 class HomepageTest(TestCase):

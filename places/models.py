@@ -1,4 +1,5 @@
-from django.db import models
+from django.contrib.gis.db import models
+from sortedm2m.fields import SortedManyToManyField
 
 class Image(models.Model):
     image = models.ImageField(upload_to='user_images/%Y/%m/%d')
@@ -14,7 +15,9 @@ class Image(models.Model):
 class Place(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField(blank=True)
-    images = models.ManyToManyField(Image)
+    images = SortedManyToManyField(Image)
+    location = models.PointField(null=True)
+    
     
     def __str__(self):
         return self.title
