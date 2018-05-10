@@ -3,6 +3,7 @@ from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
+from django.contrib.gis.geos import Point
 
 from places.models import Place, Image
 
@@ -20,7 +21,9 @@ class NewVisitorTest(LiveServerTestCase):
         first_image.license = 'license 1'
         first_image.save()
         
-        first_place = Place.objects.create(title="place 1", description="description 1")
+        first_place = Place.objects.create(title="place 1", 
+            description="description 1", 
+            location=Point(-34.0001, -108.1234))
         first_place.images.add(first_image)
         
         Place.objects.create(title="place 2", description="description 2")
@@ -73,6 +76,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertIn('attribution 1', page_text)
         
         # she sees the location of the place
+        self.assertIn('-34.0001, -108.1234', page_text)
         
         # she views more metadata for the place
         

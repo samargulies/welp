@@ -43,13 +43,13 @@ class PlaceModelTest(TestCase):
 
 class ImagesModelTest(TestCase):
     
+    def setUp(self):
+        self.images = [create_image(c) for c in '12345']
+    
     def test_adding_images_to_place(self):
-        
-        first_image = create_image("1")
-        second_image = create_image("2")
              
         new_place = Place.objects.create(title='place', description='description')
-        new_place.images.add(first_image, second_image)
+        new_place.images.add(self.images[0], self.images[1])
         
         saved_place = Place.objects.first()
         self.assertEqual(saved_place, new_place)
@@ -62,17 +62,28 @@ class ImagesModelTest(TestCase):
         self.assertEqual(saved_place_images[1].attribution, 'attribution 2')
         
         
-    # def test_image_ordering(self):
-    #
-    #     first_image = create_image("1")
-    #     second_image = create_image("2")
-    #     last_image = create_image("3")
-    #
-    #     new_place = Place.objects.create(title='place', description='description')
-    #     new_place.images.add(first_image, second_image, last_image)
-    #
-    #
+    def test_image_ordering(self):
+
+        new_place = Place.objects.create(title='place', description='description')
+        new_place.images.add(self.images[0], self.images[1], self.images[2])
         
+        new_place_images = new_place.images.all()
+        
+        self.assertEqual(list(new_place.images.all()), [
+            self.images[0], 
+            self.images[1], 
+            self.images[2]])
+            
+        new_place.images.add(self.images[0])
+        
+        self.assertEqual(list(new_place.images.all()), [
+            self.images[0], 
+            self.images[1], 
+            self.images[2]])
+        
+        new_place.images.clear()
+        self.assertEqual(list(new_place.images.all()), [])
+           
         
 class HomepageTest(TestCase):
     
@@ -83,28 +94,32 @@ class HomepageTest(TestCase):
         
 class PlacePageTest(TestCase):
     
+    def setUp(self):
+        self.test_place = Place.objects.create(title='place 1', 
+            description='description 1',
+            location=Point(-34.0001, 20.9999))        
+
+    
     def test_place_template(self):
-        first_place = Place.objects.create(title='place 1', description='description 1')        
-        response = self.client.get(f'/places/{first_place.id}/')
+        response = self.client.get(f'/places/{self.test_place.id}/')
         self.assertTemplateUsed(response, 'places/place_detail.html')
         
     def test_correct_place_in_view(self):
-        first_place = Place.objects.create(title='place 1', description='description 1')        
-        response = self.client.get(f'/places/{first_place.id}/')
+        response = self.client.get(f'/places/{self.test_place.id}/')
         self.assertContains(response, 'place 1')
         
     def test_correct_images_in_place_view(self):
         first_image = create_image("1")
         second_image = create_image("2")
              
-        first_place = Place.objects.create(title='place 1', description='description 1')        
-        first_place.images.add(first_image, second_image)
+        self.test_place.images.add(first_image, second_image)
         
-        response = self.client.get(f'/places/{first_place.id}/')
+        response = self.client.get(f'/places/{self.test_place.id}/')
         self.assertContains(response, first_image.image.url)
         self.assertContains(response, first_image.attribution)
         self.assertContains(response, second_image.image.url)
         self.assertContains(response, second_image.attribution)
+        self.assertContains(response, "-34.0001, 20.9999")
         
     
     
