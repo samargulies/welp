@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Welp</title>
-</head>
-<body>
+{% extends 'places/base.html' %}
+
+{% block content %}
     <div class="places">
         {% if place_list %}
             {% for place in place_list %}
@@ -22,5 +19,4 @@
             <p>No places found</p>
         {% endif %}
     </div>
-</body>
-</html>
+{% endblock %}

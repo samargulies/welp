@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Welp{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'places/css/style.css' %}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="site-header">
+        <h1 class="site-header__logo"><img src="{% static 'places/images/welp.svg' %}"></h1>
+        <form class="site-header__search">
+            <input name="s" placeholder="Search Establishments" />
+        </form>
+    </header>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

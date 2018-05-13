@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{ place.title }} - Welp</title>
-</head>
-<body>
+{% extends 'places/base.html' %}
+
+{% load static %}
+
+{% block title %}
+  {{ place.title }} - Welp</title>
+{% endblock %}
+
+{% block content %}
     <div class="place-detail">
         <article class="place">
             <header>
@@ -15,9 +18,11 @@
             <div class="place__images">
                 {% for image in place.images.all %}
                     <div class="place__image">
-                        <img src="{{ image.image.url }}" alt="{{ image.alt }}" />
+                        <img src="{% static image.image.url %}" alt="{{ image.alt }}" />
                         <footer>
-                            <div class="place__image__attribution">{{ image.attribution }}</div>
+                            <div class="place__image__attribution">
+                              {{ image.attribution }}
+                            </div>
                         </header>
                     </div>
                 {% endfor %}
@@ -27,7 +32,11 @@
             <div class="place__description">
                 {{ place.description }}
             </div>
+            <footer>
+                <div class="place__location">
+                    Location: {{ place.location.x }}, {{ place.location.y }}
+                </div>
+            </footer>
         </article>
     </div>
-</body>
-</html>
+{% endblock %}

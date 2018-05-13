@@ -22,7 +22,8 @@ class NewVisitorTest(LiveServerTestCase):
         first_image.save()
         
         first_place = Place.objects.create(title="place 1", 
-            description="description 1", 
+            description="description 1",
+            
             location=Point(-34.0001, -108.1234))
         first_place.images.add(first_image)
         
@@ -78,11 +79,23 @@ class NewVisitorTest(LiveServerTestCase):
         # she sees the location of the place
         self.assertIn('-34.0001, -108.1234', page_text)
         
-        # she views more metadata for the place
+        # she views other names for the place
         
+        # she views categories for the place
+        
+        # she sees other restaurants at the same location
+        
+        # she views the address
+        
+        # she sees previous addresses of this restaurant
+                
         # she sees nearby places
         
         # she sees other related places
+        
+        # she looks at places near her on a map
+        
+        # she searches the site for a specific place
         
         self.assertEqual('Finish writing tests', False)
         

@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import resolve
 from django.contrib.gis.geos import Point
 
-from .models import Place, Image
+from .models import Place, Image, PlaceCategory, ImageCategory
 
 def create_image(title):
     image = Image()
@@ -41,6 +41,41 @@ class PlaceModelTest(TestCase):
         self.assertEqual(saved_places[1].location, None)
 
 
+class CategoriesTest(TestCase):
+    
+    def setUp(self):
+        self.parent_image_cat = ImageCategory.objects.create(name='parent', slug='parent')
+        self.child_image_cat = ImageCategory.objects.create(name='child', 
+            slug='child', 
+            parent=self.parent_image_cat)
+        
+        self.parent_place_cat = PlaceCategory.objects.create(name='parent', slug='parent')
+        self.child_place_cat = PlaceCategory.objects.create(name='child', 
+            slug='child', 
+            parent=self.parent_place_cat)
+        
+        self.images = [create_image(c) for c in '12345']
+        self.place = Place.objects.create(title='place', description='description')
+    
+    def test_image_cat_heirarchy(self):
+        self.assertEqual(self.child_image_cat.parent.name, 'parent')
+        self.assertEqual(list(self.parent_image_cat.children.all()), 
+            [self.child_image_cat])
+            
+    def test_place_cat_heirarchy(self):
+        self.assertEqual(self.child_place_cat.parent.name, 'parent')
+        self.assertEqual(list(self.parent_place_cat.children.all()), 
+            [self.child_place_cat])
+    
+    def test_add_child_image_cats(self):
+        self.images[0].categories.add(self.child_image_cat)
+        self.assertEqual(list(self.images[0].categories.all()), [self.child_image_cat])
+    
+    def test_add_child_place_cats(self):
+        self.place.categories.add(self.child_place_cat)
+        self.assertEqual(list(self.place.categories.all()), [self.child_place_cat])
+        
+
 class ImagesModelTest(TestCase):
     
     def setUp(self):
@@ -59,8 +94,7 @@ class ImagesModelTest(TestCase):
         self.assertEqual(saved_place_images[0].title, 'image 1')
         self.assertEqual(saved_place_images[0].attribution, 'attribution 1')
         self.assertEqual(saved_place_images[1].title, 'image 2')
-        self.assertEqual(saved_place_images[1].attribution, 'attribution 2')
-        
+        self.assertEqual(saved_place_images[1].attribution, 'attribution 2')  
         
     def test_image_ordering(self):
 
@@ -90,7 +124,7 @@ class HomepageTest(TestCase):
     def test_homepage_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'places/index.html')
-        
+       
         
 class PlacePageTest(TestCase):
     
@@ -98,7 +132,6 @@ class PlacePageTest(TestCase):
         self.test_place = Place.objects.create(title='place 1', 
             description='description 1',
             location=Point(-34.0001, 20.9999))        
-
     
     def test_place_template(self):
         response = self.client.get(f'/places/{self.test_place.id}/')
