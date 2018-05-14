@@ -3,7 +3,7 @@ from django.urls import resolve
 from django.contrib.gis.geos import Point
 from django.core.files import File
 
-from .models import Place, Image, PlaceCategory, ImageCategory
+from .models import Place, Image, PlaceCategory, ImageCategory, Address
 
 def create_image(title):
     image = Image()
@@ -24,7 +24,6 @@ class PlaceModelTest(TestCase):
         first_place.title = 'place 1'
         first_place.description = 'description 1'
         first_place.location = Point(-34.0001, 20.9999)
-        first_place.address = "123 S. 4th St."
         first_place.save()
         
         second_place = Place()
@@ -38,7 +37,6 @@ class PlaceModelTest(TestCase):
         self.assertEqual(saved_places[0].description, 'description 1')
         self.assertEqual(saved_places[0].location.x, -34.0001)
         self.assertEqual(saved_places[0].location.y, 20.9999)
-        self.assertEqual(saved_places[0].address, "123 S. 4th St.")
         self.assertEqual(saved_places[1].title, 'place 2')
         self.assertEqual(saved_places[1].description, 'description 2')
         self.assertEqual(saved_places[1].location, None)
@@ -69,6 +67,36 @@ class PlaceModelTest(TestCase):
         # limited to 5 results
         places.append(Place.objects.create(title='place', description='description', location=Point(-33.999, 19.999)))
         self.assertEqual(places[0].nearby().count(), 5)
+        
+    def test_getting_place_current_address(self):
+        test_place = Place.objects.create(title='place', description='description')
+        
+        addresses = []
+        for c in 'abcde':
+            addresses.append(Address.objects.create(address=c, city='Philadelphia', state='PA', place=test_place))
+        
+        self.assertEqual(test_place.address_set.all().count(), 5)
+        self.assertEqual(test_place.current_address(), None)
+        self.assertEqual(list(test_place.previous_addresses()), list(test_place.address_set.all()))
+        self.assertEqual(test_place.previous_addresses().count(), 5)
+        
+        addresses[1].current = True
+        addresses[1].save()
+        
+        self.assertEqual(test_place.current_address(), addresses[1])
+        self.assertEqual(test_place.previous_addresses().count(), 4)
+        
+        addresses[0].current = True
+        addresses[0].sort_value = 1
+        addresses[0].save()
+        
+        self.assertEqual(test_place.current_address(), addresses[1])
+        self.assertEqual(test_place.previous_addresses().count(), 3)
+        
+        addresses[1].sort_value = 2
+        addresses[1].save()
+        
+        self.assertEqual(test_place.current_address(), addresses[0])
         
         
     def test_images_extended(self):

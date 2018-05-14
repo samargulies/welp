@@ -10,7 +10,7 @@ urlpatterns = [
     path('places/', include('places.urls')),
     path('admin/', admin.site.urls),
     path('nested_admin/', include('nested_admin.urls')),
-    path('markdownx/', include('markdownx.urls')),
+    path('martor/', include('martor.urls')),
     
 ]
 
