@@ -1,4 +1,5 @@
 Django==2.0.5
+django-inline-svg==0.1.1
 django-sortedm2m==1.5.0
 Pillow==5.1.0
 pytz==2018.4

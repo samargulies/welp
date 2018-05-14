@@ -7,36 +7,65 @@
 {% endblock %}
 
 {% block content %}
-    <div class="place-detail">
-        <article class="place">
-            <header>
-                <h2 class="place__title">
-                    {{ place.title }}
-                </h2>
-            </header>
-            {% if place.images %}
-            <div class="place__images">
-                {% for image in place.images.all %}
-                    <div class="place__image">
-                        <img src="{% static image.image.url %}" alt="{{ image.alt }}" />
-                        <footer>
-                            <div class="place__image__attribution">
-                              {{ image.attribution }}
-                            </div>
-                        </header>
+    <article class="place-detail">
+        
+        <header class="place-detail__header">
+            <h2 class="place-detail__title">{{ place.title }}</h2>
+            <div class="place-detail__address">{{ place.address|default:"" }}</div>
+            <div class="place-detail__categories">
+                {% for category in place.categories.all %}
+                    <div class="place-detail__category">
+                        <a href="">{{ category.name }}</a>
                     </div>
                 {% endfor %}
-                </div>
-            {% endif %}
-                
-            <div class="place__description">
-                {{ place.description }}
             </div>
-            <footer>
-                <div class="place__location">
-                    Location: {{ place.location.x }}, {{ place.location.y }}
+            
+        </header>
+        
+        {% if place.images %}
+        <div
+            {% if place.displays_images_extended %} 
+                class="place-detail__images place-detail__images--extended"
+                data-flickity='{ "pageDots": false, "prevNextButtons": false, "contains": true, "percentPosition": false }'
+            {% else %}
+                class="place-detail__images"
+            {% endif %}>
+            {% for image in place.images.all %}
+                <div class="place-detail__image">
+                    <img src="{{ image.image.url }}" alt="{{ image.alt }}" height="{{image.image.height}}" width="{{image.image.width}}" />
+                    <footer>
+                        <div class="place-detail__image__attribution">
+                          {{ image.attribution }}
+                        </div>
+                    </header>
                 </div>
-            </footer>
-        </article>
-    </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+            
+        <div class="place-detail__description">
+            {{ place.description }}
+        </div>
+        
+        <footer class="place-detail__sidebar">
+            
+            <div class="place-detail__location">
+                <img width="300" height="200" src="https://api.mapbox.com/styles/v1/mapbox/light-v9/static/{{ place.location.x }},{{ place.location.y }},14.0,0,0/300x200@2x?access_token=pk.eyJ1Ijoic2FtYXJndWxpZXMiLCJhIjoiY2E3c2laTSJ9.v0zuT22Dw8b72E-TRFbFaQ">
+            </div>
+            
+            {% if place.nearby %} 
+            <div class="place-detail__related-places">
+                <h3 class="related-places__title">Nearby</h3>
+                {% for nearby_place in place.nearby %}
+                    <div class="related-place">
+                        <h4 class="related-place__title"><a href="{% url 'places:detail' nearby_place.id %}">{{ nearby_place.title }}</a></h4>
+                        <div class="related-place__address"></div>
+                    </div>  
+                {% endfor %}  
+            </div>
+            {% endif %} 
+            
+        </footer>
+        
+    </article>
 {% endblock %}

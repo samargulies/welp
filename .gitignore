@@ -3,4 +3,5 @@ geckodriver.log
 venv
 __pycache__
 *.pyc
-user_images
+media
+dist

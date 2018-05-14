@@ -1,14 +1,18 @@
 {% load static %}
+{% load svg %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>{% block title %}Welp{% endblock %}</title>
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'places/css/style.css' %}">
     {% block head %}{% endblock %}
 </head>
 <body>
     <header class="site-header">
-        <h1 class="site-header__logo"><img src="{% static 'places/images/welp.svg' %}"></h1>
+        <h1 class="site-header__logo">
+            <a href="{% url 'index' %}">{% svg 'logo' %}</a>
+        </h1>
         <form class="site-header__search">
             <input name="s" placeholder="Search Establishments" />
         </form>
@@ -17,5 +21,7 @@
         {% block content %}
         {% endblock %}
     </div>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    {% block footer %}{% endblock %}
 </body>
 </html>
