@@ -157,4 +157,4 @@ DEFAULT_FILE_STORAGE = 'welp.custom_storages.MediaStorage'
 
 # GeoDjango configuration
 # https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/#spatialite-macos
-SPATIALITE_LIBRARY_PATH='/usr/local/lib/mod_spatialite.dylib'
+SPATIALITE_LIBRARY_PATH = config.SPATIALITE_LIBRARY_PATH
