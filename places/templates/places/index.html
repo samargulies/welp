@@ -10,8 +10,8 @@
                             <a href="{% url 'places:detail' place.id %}">{{ place.title }}</a>
                         </h2>
                     </header>
-                    <div class="place__description">
-                        {{ place.description }}
+                    <div class="place__address">
+                        {{ place.current_address|default:"" }}
                     </div>
                 </article>
             {% endfor %}

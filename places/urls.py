@@ -5,4 +5,5 @@ from . import views
 app_name = 'places'
 urlpatterns = [
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('category/<slug:slug>/', views.CategoryView.as_view(), name='category'),
 ]

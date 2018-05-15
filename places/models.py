@@ -56,6 +56,27 @@ class Image(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
+    def safe_thumbnail(self):
+        try:
+            if self.image_thumbnail.width:
+                return self.image_thumbnail
+        except:
+            return
+    
+    def safe_medium(self):
+        try:
+            if self.image_medium.width:
+                return self.image_medium
+        except:
+            return
+    
+    def safe_large(self):
+        try:
+            if self.image_large.width:
+                return self.image_large
+        except:
+            return       
+    
     # generate html classes based on the image and its categories
     def classes(self):
         classlist = []
@@ -98,6 +119,12 @@ class Place(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
+    def featured_image(self):
+        try:
+            return self.images.all()[0:1].get()
+        except ObjectDoesNotExist:
+            return
+        
     def displays_images_extended(self):
         return self.images.count() > 1
     

@@ -5,6 +5,7 @@
 <head>
     <title>{% block title %}Welp{% endblock %}</title>
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
     <link rel="stylesheet" type="text/css" href="{% static 'places/css/style.css' %}">
     {% block head %}{% endblock %}
 </head>
@@ -22,6 +23,7 @@
         {% endblock %}
     </div>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="https://unpkg.com/flickity-fullscreen@1/fullscreen.js"></script>
     {% block footer %}{% endblock %}
 </body>
 </html>

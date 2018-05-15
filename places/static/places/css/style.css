@@ -1,6 +1,16 @@
 :root {
-    --primary-color: #FF3F07;
-    --light-accent-color: #F9FDF9;
+    --primary-color: hsl(14, 100%, 51%);
+    --primary-color-rgb: 255, 63, 5;
+    --light-accent-color: hsl(120, 50%, 98%);
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 0.5rem;
 }
 
 body {
@@ -58,6 +68,58 @@ img {
     border: none;
 }
 
+.places__header {
+    display: grid;
+    grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
+    grid-column-gap: 1rem;
+    padding: 0 1rem 2rem;
+}
+
+.places__title {
+    margin: 1.5rem auto 0;
+    max-width: 640px;
+    width: 100%;
+}
+
+.places__list  {
+    display: grid;
+    grid-gap: 1.5rem;
+    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(auto, 320px));
+    justify-content: center;
+}
+
+.places__list .place {
+    background: var(--primary-color);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.places__list .place:hover .place__title,
+.places__list .place:focus .place__title {
+    color: var(--primary-color);
+}
+
+.places__list .place:hover,
+.places__list .place:focus {
+    background: rgba(var(--primary-color-rgb), 0.1);
+}
+
+.places__list .place__title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    font-weight: 500;
+    margin: 0 0 1rem;
+    color: white;
+}
+
+.place-detail {
+    display: grid;
+    grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
+    grid-column-gap: 1rem;
+    padding: 0 1rem;
+}
+
 .place-detail {
     display: grid;
     grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
@@ -77,9 +139,12 @@ img {
     margin: 0 0 0.5rem;
 }
 
+.place-detail__images:not(.is-fullscreen) {
+    margin: 1rem 0;
+}
+
 .place-detail__images {
     grid-column-start: 1;
-    margin: 1rem 0;
 }
 
 /* workaround for issues with auto and flickity */
@@ -106,6 +171,10 @@ img {
     height: 40vh;
 }
 
+.is-fullscreen .place-detail__image {
+    height: 100vh;
+}
+
 .place-detail__address {
     display: inline-block;
 }
@@ -119,11 +188,8 @@ img {
     background: red;
     padding: 0 .5rem;
     border-radius: 12px;
-    margin: 0 0.25rem
-}
-.place-detail__category a {
-    color: white;
-    text-decoration: none;
+    margin: 0 0.25rem;
+    color: white;   
 }
 
 /* allow rotating matchbooks on active (hacky version) */
@@ -148,6 +214,22 @@ img {
     padding: 1rem;
     margin-right: -1rem;
     background: var(--light-accent-color);
+}
+
+.place-detail__meta {
+    margin: 1rem 0;
+}
+
+.place-detail__meta__title {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.related-place__title {
+    color: var(--primary-color);
+    font-weight: 500;
 }
 
 .place-detail__images--extended ~ .place-detail__sidebar {
