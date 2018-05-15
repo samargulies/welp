@@ -106,6 +106,31 @@ img {
     height: 40vh;
 }
 
+.place-detail__address {
+    display: inline-block;
+}
+
+.place-detail__categories {
+    display: inline-block;
+}
+
+.place-detail__category {
+    display: inline;
+    background: red;
+    padding: 0 .5rem;
+    border-radius: 12px;
+    margin: 0 0.25rem
+}
+.place-detail__category a {
+    color: white;
+    text-decoration: none;
+}
+
+/* allow rotating matchbooks on active (hacky version) */
+.place-detail__image.category-matchbooks:active {
+    transform: rotate(180deg);
+}
+
 .flickity-viewport img {
     max-width: unset;
 }

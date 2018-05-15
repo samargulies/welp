@@ -91,6 +91,8 @@ class NewVisitorTest(LiveServerTestCase):
                 
         # she sees nearby places
         
+        # she clicks on an image tagged matchbook to rotate it 180 degrees
+        
         # she sees other related places
         
         # she looks at places near her on a map

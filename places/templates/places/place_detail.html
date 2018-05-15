@@ -15,7 +15,7 @@
             <div class="place-detail__address">{{ place.current_address|default:"" }}</div>
             <div class="place-detail__categories">
                 {% for category in place.categories.all %}
-                    <div class="place-detail__category">
+                    <div class="place-detail__category category-{{ category.slug }}">
                         <a href="">{{ category.name }}</a>
                     </div>
                 {% endfor %}
@@ -32,8 +32,8 @@
                 class="place-detail__images"
             {% endif %}>
             {% for image in place.images.all %}
-                <div class="place-detail__image">
-                    <img src="{{ image.image.url }}" alt="{{ image.alt }}" height="{{image.image.height}}" width="{{image.image.width}}" />
+                <div class="place-detail__image {{image.classes}}">
+                    <img src="{{ image.image_large.url }}" alt="{{ image.alt }}" height="{{image.image_large.height}}" width="{{image.image_large.width}}" />
                     <footer>
                         <div class="place-detail__image__attribution">
                           {{ image.attribution }}

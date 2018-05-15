@@ -137,8 +137,13 @@ class CategoriesTest(TestCase):
             [self.child_place_cat])
     
     def test_add_child_image_cats(self):
+        
+        self.assertEqual("", self.images[0].classes())
+            
         self.images[0].categories.add(self.child_image_cat)
+        
         self.assertEqual(list(self.images[0].categories.all()), [self.child_image_cat])
+        self.assertIn(self.child_image_cat.slug, self.images[0].classes())      
     
     def test_add_child_place_cats(self):
         self.place.categories.add(self.child_place_cat)

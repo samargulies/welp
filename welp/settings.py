@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+from . import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,7 @@ SECRET_KEY = 'cx2f^7#-vc&wfem=dg__t=oubggjndiz=j1!rkm7=zahc+1n04'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -42,6 +43,8 @@ INSTALLED_APPS = [
     'nested_admin',
     'martor',
     'localflavor',
+    'imagekit',
+    'storages',
     'places',
 ]
 
@@ -119,15 +122,38 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Fix for S3 and ImageKit
+# https://github.com/matthewwithanm/django-imagekit/issues/391
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'welp.image_generators.FixJustInTime'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'dist/static')
-
+# STATIC_ROOT = os.path.join(BASE_DIR, 'dist/static')
+#
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# S3 Storage
+# http://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html
+
+    
+AWS_ACCESS_KEY_ID = config.AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY = config.AWS_SECRET_ACCESS_KEY
+AWS_STORAGE_BUCKET_NAME = config.AWS_STORAGE_BUCKET_NAME
+
+AWS_IS_GZIPPED = True
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_S3_CUSTOM_DOMAIN = f'{config.AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_LOCATION = 'static'
+
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'welp.custom_storages.MediaStorage'
 
 # GeoDjango configuration
 # https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/#spatialite-macos

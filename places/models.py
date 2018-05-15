@@ -1,6 +1,8 @@
 from django.contrib.gis.db import models
 from localflavor.us.models import USStateField, USZipCodeField
 from sortedm2m.fields import SortedManyToManyField
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit, SmartResize
 from django.contrib.gis.measure import D
 from  django.core.exceptions import ObjectDoesNotExist
 import os
@@ -32,6 +34,19 @@ class ImageCategory(Category):
     
 class Image(models.Model):
     image = models.ImageField(upload_to='%Y/%m/%d')
+    image_thumbnail = ImageSpecField(source='image',
+        processors=[SmartResize(200, 200, upscale=True)],
+        format='JPEG',
+        options={'quality': 85})
+    image_medium = ImageSpecField(source='image',
+        processors=[ResizeToFit(700, 700, upscale=False)],
+        format='JPEG',
+        options={'quality': 90})
+    image_large = ImageSpecField(source='image',
+        processors=[ResizeToFit(1400, 1400, upscale=False)],
+        format='JPEG',
+        options={'quality': 90})
+                                      
     title = models.CharField(max_length=256, blank=True)
     description = models.TextField(blank=True)
     alt = models.CharField(max_length=256, blank=True)
@@ -41,6 +56,14 @@ class Image(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
+    # generate html classes based on the image and its categories
+    def classes(self):
+        classlist = []
+        for category in self.categories.all():
+            classlist.append(f"category-{category.slug}")
+        
+        return ' '.join(classlist)
+        
     def __str__(self):
         return self.title or os.path.basename(self.image.name)
 
