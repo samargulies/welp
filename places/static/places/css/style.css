@@ -174,7 +174,10 @@ img {
 }
 
 .is-fullscreen .place-detail__image {
-    height: 100vh;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .place-detail__address {
