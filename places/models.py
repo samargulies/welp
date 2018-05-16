@@ -25,8 +25,7 @@ class Category(models.Model):
             parent_cat = parent_cat.parent
         return '/'.join(full_path[::-1])
 
-class ImageCategory(Category):
-    
+class ImageCategory(Category):  
      class Meta:
          verbose_name = 'Image Category'
          verbose_name_plural = 'Image Categories'
@@ -89,7 +88,6 @@ class Image(models.Model):
         return self.title or os.path.basename(self.image.name)
 
 class PlaceCategory(Category):
-    
     class Meta:
         verbose_name = 'Place Category'
         verbose_name_plural = 'Place Categories'
