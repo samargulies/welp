@@ -1,9 +1,9 @@
 {% extends 'places/base.html' %}
 
 {% block content %}
-    <div class="places">
-        <header class="places__header">
-        <h1 class="places__title">{{ title|default:"" }}</h1>
+    <div class="places page page--full">
+        <header class="page__header">
+            <h1 class="page__title">{{ title|default:"" }}</h1>
         </header>
         <div class="places__list">
             {% if place_list %}

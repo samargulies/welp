@@ -3,6 +3,7 @@ from django.contrib.gis import admin
 import nested_admin
 from martor.widgets import AdminMartorWidget
 from imagekit.admin import AdminThumbnail
+from leaflet.admin import LeafletGeoAdminMixin
 
 from .models import Place, Image, PlaceCategory, ImageCategory, Address
 
@@ -34,7 +35,7 @@ class PlaceCategoryInline(nested_admin.NestedTabularInline):
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
     
-class PlaceAdmin(nested_admin.NestedModelAdmin):
+class PlaceAdmin(LeafletGeoAdminMixin, nested_admin.NestedModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
     }

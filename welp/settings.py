@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'localflavor',
     'imagekit',
     'storages',
+    'leaflet',
     'places',
 ]
 

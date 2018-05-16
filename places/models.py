@@ -1,11 +1,11 @@
+import os
+from  django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.db import models
+from django.contrib.gis.measure import D
 from localflavor.us.models import USStateField, USZipCodeField
 from sortedm2m.fields import SortedManyToManyField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, SmartResize
-from django.contrib.gis.measure import D
-from  django.core.exceptions import ObjectDoesNotExist
-import os
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
@@ -34,15 +34,15 @@ class ImageCategory(Category):
 class Image(models.Model):
     image = models.ImageField(upload_to='%Y/%m/%d')
     image_thumbnail = ImageSpecField(source='image',
-        processors=[SmartResize(200, 200, upscale=True)],
+        processors=[SmartResize(320, 320, upscale=True)],
         format='JPEG',
         options={'quality': 85})
     image_medium = ImageSpecField(source='image',
-        processors=[ResizeToFit(700, 700, upscale=False)],
+        processors=[ResizeToFit(700, 600, upscale=False)],
         format='JPEG',
         options={'quality': 90})
     image_large = ImageSpecField(source='image',
-        processors=[ResizeToFit(1400, 1400, upscale=False)],
+        processors=[ResizeToFit(1400, 1100, upscale=False)],
         format='JPEG',
         options={'quality': 90})
                                       
@@ -118,19 +118,13 @@ class Place(models.Model):
     updated = models.DateTimeField(auto_now=True)
     
     def featured_image(self):
-        try:
-            return self.images.all()[0:1].get()
-        except ObjectDoesNotExist:
-            return
+        return self.images.first()
         
     def displays_images_extended(self):
         return self.images.count() > 1
     
     def current_address(self):
-        try:
-            return self.address_set.filter(current=True)[0:1].get()
-        except ObjectDoesNotExist:
-            return
+        return self.address_set.filter(current=True).first()
     
     def previous_addresses(self):
         return self.address_set.filter(current=False)

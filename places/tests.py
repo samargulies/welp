@@ -197,7 +197,7 @@ class HomepageTest(TestCase):
     
     def test_homepage_template(self):
         response = self.client.get('/')
-        self.assertTemplateUsed(response, 'places/index.html')
+        self.assertTemplateUsed(response, 'places/place_list.html')
        
         
 class PlacePageTest(TestCase):
