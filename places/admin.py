@@ -40,6 +40,14 @@ class PlaceAdmin(LeafletGeoAdminMixin, nested_admin.NestedModelAdmin):
         models.TextField: {'widget': AdminMartorWidget},
     }
     
+    settings_overrides = {
+       'DEFAULT_CENTER': (39.95, -75.16),
+       'DEFAULT_ZOOM': 14,
+       'TILES': [('', 
+           'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FtYXJndWxpZXMiLCJhIjoiY2E3c2laTSJ9.v0zuT22Dw8b72E-TRFbFaQ',
+           '')]
+    }
+    
     inlines = [
         AddressesInline,
         ImagesInline,
@@ -55,6 +63,7 @@ class ImageAdmin(nested_admin.NestedModelAdmin):
     list_display = ('__str__', 'admin_thumbnail')
     readonly_fields = ('admin_thumbnail',)
     exclude = ('categories',)
+
     
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Image, ImageAdmin)

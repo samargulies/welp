@@ -6,6 +6,7 @@
     <title>{% block title %}Welp{% endblock %}</title>
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" type="text/css" href="{% static 'places/css/style.css' %}">
     {% block head %}{% endblock %}
 </head>
@@ -22,8 +23,19 @@
         {% block content %}
         {% endblock %}
     </div>
+    <footer class="site-footer">
+        <div class="site-footer__nav">
+            <h3 class="site-footer__nav__header">Welp</h3>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'places:map' %}">Map</a></li>
+            </ul>
+        </div>
+    </footer>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     <script src="https://unpkg.com/flickity-fullscreen@1/fullscreen.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
+    <script src="{% static 'places/js/map.js' %}"></script>
     <script src="{% static 'places/js/scripts.js' %}"></script>
     {% block footer %}{% endblock %}
 </body>

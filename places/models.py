@@ -1,6 +1,7 @@
 import os
 from  django.core.exceptions import ObjectDoesNotExist
 from django.contrib.gis.db import models
+from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
 from localflavor.us.models import USStateField, USZipCodeField
 from sortedm2m.fields import SortedManyToManyField
@@ -117,6 +118,18 @@ class Place(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
+    def map_properties(self):
+        properties = {
+            "id": self.id,
+            "title": self.title,
+        }
+        if self.featured_image() and self.featured_image().safe_thumbnail():
+            properties["image"] = self.featured_image().safe_thumbnail().url
+        if self.current_address():
+            properties["address"] = self.current_address().address
+        
+        return properties
+    
     def featured_image(self):
         return self.images.first()
         
@@ -134,7 +147,11 @@ class Place(models.Model):
         if not self.location:
             return
         
-        return Place.objects.exclude(location__isnull=True).exclude(pk=self.pk).filter(location__distance_lte=(self.location, D(km=5)))[:5]
+        return Place.objects.exclude(location__isnull=True)\
+            .exclude(pk=self.pk)\
+            .filter(location__distance_lte=(self.location, D(km=5)))\
+            .annotate(distance=Distance('location', self.location))\
+            .order_by('distance')[:5]
     
     def __str__(self):
         return self.title

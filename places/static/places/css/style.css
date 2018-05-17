@@ -2,6 +2,7 @@
     --primary-color: hsl(14, 100%, 51%);
     --primary-color-rgb: 255, 63, 5;
     --light-accent-color: hsl(120, 50%, 98%);
+    --footer-color: #eee;
 }
 
 a {
@@ -18,6 +19,9 @@ body {
     font-size: 16px;
     font-family: "Avenir Next", -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
     box-sizing: border-box;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 *, *:before, *:after {
@@ -72,7 +76,7 @@ img {
     display: grid;
     grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
     grid-column-gap: 1rem;
-    padding: 0 1rem 2rem;
+    padding-bottom: 2rem;
 }
 
 .page--full .page__title {
@@ -81,12 +85,16 @@ img {
     width: 100%;
 }
 
+.content {
+    padding: 0 1rem;
+}
+
 .places__list  {
     display: grid;
     grid-gap: 1.5rem;
-    padding: 0 1rem;
     grid-template-columns: repeat(auto-fill, minmax(auto, 320px));
     justify-content: center;
+    padding-bottom: 2rem;
 }
 
 .places__list .place {
@@ -117,14 +125,6 @@ img {
     display: grid;
     grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
     grid-column-gap: 1rem;
-    padding: 0 1rem;
-}
-
-.place-detail {
-    display: grid;
-    grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
-    grid-column-gap: 1rem;
-    padding: 0 1rem;
 }
 
 .place-detail__header {
@@ -236,6 +236,11 @@ img {
     background: var(--light-accent-color);
 }
 
+.place-detail .map__container {
+    height: 240px;
+    max-width: 440px;
+}
+
 .place-detail__meta {
     margin: 1rem 0;
 }
@@ -256,9 +261,27 @@ img {
     grid-row: 3;
 }
 
-.map__container {
+.map-page .map__container {
     height: 60vh;
-    margin: 0 1rem;
+    margin-bottom: 2rem;
+}
+
+.site-footer {
+    background: var(--footer-color);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    min-height: 20vh;
+}
+
+.site-footer__nav {
+    margin: 1rem auto;
+    max-width: 640px;
+    width: 100%;
+}
+
+.site-footer__nav ul {
+    padding: 0;
+    list-style-position: inside;
 }
 
 @media (max-width: 550px) {

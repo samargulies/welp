@@ -4,7 +4,7 @@
 {% load martortags %}
 
 {% block title %}
-  {{ place.title }} - Welp</title>
+  {{ place.title }} - Welp
 {% endblock %}
 
 {% block content %}
@@ -50,7 +50,12 @@
         <footer class="place-detail__sidebar">
             
             <div class="place-detail__location">
-                <img width="300" height="200" src="https://api.mapbox.com/styles/v1/mapbox/light-v9/static/{{ place.location.x }},{{ place.location.y }},14.0,0,0/300x200@2x?access_token=pk.eyJ1Ijoic2FtYXJndWxpZXMiLCJhIjoiY2E3c2laTSJ9.v0zuT22Dw8b72E-TRFbFaQ">
+                <div class="map">
+                    <div id="map__container" class="map__container" 
+                        data-place-id={{ place.id }}
+                        data-lat={{ place.location.x }}
+                        data-lng={{ place.location.y }}></div>
+                </div>
             </div>
             
             {% if place.previous_addresses %} 

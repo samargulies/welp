@@ -24,16 +24,14 @@ def point_in_tile(tile_bounds, point):
             int((point.y - y0) * MVT_EXTENT / y_span))
 
 # encode places to mpt with the given properties
-def encode(places, properties, tile_bounds):
+def encode(places, tile_bounds):
     features = []
     for place in places:
         feature_point = point_in_tile(tile_bounds, place.location)
         feature_properties = {}
-        for p in properties:
-            feature_properties[p] = getattr(place, p)
         features.append({
             "geometry": feature_point.wkt,
-            "properties": feature_properties
+            "properties": place.map_properties()
         })
     
     return mapbox_vector_tile.encode({
@@ -42,11 +40,11 @@ def encode(places, properties, tile_bounds):
     }, round_fn=round)
     
 # return results for a given tile query
-def encode_objects_for_tile(object, xyz, properties):
+def encode_objects_for_tile(object, xyz):
     tile_bounds = Polygon.from_bbox(mercantile.bounds(*xyz))
     tile_bounds.srid = SRID_LNGLAT
     tile_bounds.transform(SRID_SPHERICAL_MERCATOR)
     
-    objects = object.objects.filter(location__intersects=tile_bounds).all()
+    objects = object.objects.filter(location__intersects=tile_bounds).all()[:20]
     
-    return encode(objects, properties, tile_bounds)
+    return encode(objects, tile_bounds)
