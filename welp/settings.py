@@ -90,6 +90,9 @@ DATABASES = {
     }
 }
 
+# Caches
+# https://docs.djangoproject.com/en/2.0/topics/cache/
+CACHES = config.CACHES
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

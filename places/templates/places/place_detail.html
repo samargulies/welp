@@ -32,7 +32,10 @@
             {% endif %}>
             {% for image in place.images.all %}
                 <div class="place-detail__image {{image.classes}}">
-                    <img src="{{ image.safe_large.url }}" alt="{{ image.alt }}" height="{{image.safe_large.height}}" width="{{image.safe_large.width}}" />
+                    <img data-flickity-lazyload-srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
+                        data-flickity-lazyload-src="{{ image.safe_large.url }}"
+                        alt="{{ image.alt }}"
+                        />
                     <footer>
                         <div class="place-detail__image__attribution">
                           {{ image.attribution }}
@@ -61,7 +64,7 @@
             
             {% if place.previous_addresses %} 
             <div class="place-detail__meta">
-                <h3 class="place-detail__meta__title">Also Known As</h3>
+                <h3 class="place-detail__meta__title">Previous Addresses</h3>
                 <ul>
                 {% for address in place.previous_addresses %}
                     <li>{{ address.address }}</li>  
