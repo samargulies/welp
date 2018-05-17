@@ -29,7 +29,7 @@ map.on('load', function() {
 	
 	map.addSource("places", {
         "type": "vector",
-        "tiles": ["http://localhost:8000/places/map/tiles/{z}/{x}/{y}/"],
+        "tiles": [document.location.origin + "/places/map/tiles/{z}/{x}/{y}/"],
         "minzoom": 4,
         "maxzoom": 14
 	});
