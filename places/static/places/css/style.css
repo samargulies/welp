@@ -173,8 +173,8 @@ img {
   opacity: 0;
 }
 
-.place-detail__image.flickity-lazyloaded img,
-.place-detail__image.flickity-lazyerror img {
+.place-detail__image img.flickity-lazyloaded,
+.place-detail__image img.flickity-lazyerror {
   opacity: 1;
 }
 
