@@ -168,13 +168,13 @@ img {
     margin: 0 1rem;
 }
 
-.place-detail__image {
+.place-detail__image img {
   transition: opacity 0.4s;
   opacity: 0;
 }
 
-.place-detail__image.flickity-lazyloaded,
-.place-detail__image.flickity-lazyerror {
+.place-detail__image.flickity-lazyloaded img,
+.place-detail__image.flickity-lazyerror img {
   opacity: 1;
 }
 
