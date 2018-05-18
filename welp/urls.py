@@ -11,6 +11,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('nested_admin/', include('nested_admin.urls')),
     path('martor/', include('martor.urls')),
+    path('comments/', include('django_comments.urls')),
     
 ]
 

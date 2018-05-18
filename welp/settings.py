@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'places',
     'svg',
     'nested_admin',
     'martor',
@@ -46,7 +47,8 @@ INSTALLED_APPS = [
     'imagekit',
     'storages',
     'leaflet',
-    'places',
+    'django.contrib.sites',
+    'django_comments',
 ]
 
 MIDDLEWARE = [

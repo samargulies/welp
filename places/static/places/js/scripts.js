@@ -188,3 +188,12 @@ if( document.getElementById('map__container') !== null ) {
     
 	});
 }
+
+// if( document.getElementById('comment__editor') !== null ) {
+
+	var editor = new Editor({
+		element: document.getElementById('comment__editor')
+	});
+	editor.render();
+	
+// }

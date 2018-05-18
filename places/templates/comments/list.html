@@ -1,0 +1,16 @@
+{% load martortags %}
+
+<div class="comments">
+    {% if comment_list.count > 0 %}
+    <h2 class="comments__title">Comments</h2>
+    {% endif %}
+    {% for comment in comment_list %}
+        <article id="c{{ comment.id }}" class="comment">
+            <div class="comment__content">{{ comment.comment|safe_markdown }}</div>
+            <footer>
+                <div class="comment__author">{{ comment.name }}</div>
+                <div class="comment__date">{{ comment.submit_date }}</div>
+            </footer>
+        </article>
+    {% endfor %}
+</div>

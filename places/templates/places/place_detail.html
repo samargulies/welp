@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load martortags %}
+{% load comments %}
 
 {% block title %}
   {{ place.title }} - Welp
@@ -76,10 +77,15 @@
         
         {% if place.chain and place.chain.description %} 
         <div class="place-detail__description place-detail__description--chain">
-            <h2 class="place-detail__chain-title"><a href="{% url 'places:chain' place.chain.id %}">{{ place.chain.title }}</h2>
+            <h2 class="place-detail__chain-title"><a href="{% url 'places:chain' place.chain.id %}">{{ place.chain.title }}</a></h2>
             {{ place.chain.description|safe_markdown }}
         </div>
         {% endif %}
+        
+        <div class="place-detail__comments">
+            {% render_comment_list for place %}
+            {% render_comment_form for place %}
+        </div>
         
         <footer class="place-detail__sidebar">
             

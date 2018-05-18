@@ -7,6 +7,7 @@ from localflavor.us.models import USStateField, USZipCodeField
 from sortedm2m.fields import SortedManyToManyField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, SmartResize
+from django_comments.moderation import CommentModerator, moderator
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
@@ -167,3 +168,10 @@ class Place(models.Model):
     
     def __str__(self):
         return self.title
+        
+class PlaceModerator(CommentModerator):
+    # email_notification = True
+    auto_moderate_field = 'created'
+    moderate_after = 0
+
+moderator.register(Place, PlaceModerator)

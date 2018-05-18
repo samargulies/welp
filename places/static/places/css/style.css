@@ -262,6 +262,13 @@ img {
     grid-column-start: 1;   
 }
 
+.place-detail__comments {
+    margin: 0 auto;
+    max-width: 640px;
+    width: 100%;
+    grid-column-start: 1;   
+}
+
 .place-detail__sidebar {
     grid-column-start: 2;   
     grid-row: 1 / 4;
