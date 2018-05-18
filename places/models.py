@@ -101,7 +101,6 @@ class Address(models.Model):
     zipcode = USZipCodeField(blank=True)
     place = models.ForeignKey('Place', on_delete=models.CASCADE)
     sort_value = models.SmallIntegerField(default=0)
-    current = models.BooleanField(default=False)
     
     class Meta:
         ordering = ['sort_value']
@@ -137,10 +136,10 @@ class Place(models.Model):
         return self.images.count() > 1
     
     def current_address(self):
-        return self.address_set.filter(current=True).first()
+        return self.address_set.all().first()
     
     def previous_addresses(self):
-        return self.address_set.filter(current=False)
+        return self.address_set.all()[1:]
     
     # return 5 nearest places within 5km
     def nearby(self):

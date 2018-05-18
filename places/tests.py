@@ -1,7 +1,9 @@
 from django.test import TestCase
+from django.core.cache import cache
 from django.urls import resolve
 from django.contrib.gis.geos import Point
 from django.core.files import File
+import mapbox_vector_tile
 
 from .models import Place, Image, PlaceCategory, ImageCategory, Address
 
@@ -53,8 +55,8 @@ class PlaceModelTest(TestCase):
         self.assertEqual(places[0].nearby().count(), 3)
         self.assertEqual(list(places[0].nearby()), [places[1], places[2], places[3]])
         self.assertEqual(list(places[1].nearby()), [places[0], places[2], places[3]])
-        self.assertEqual(list(places[2].nearby()), [places[0], places[1], places[3]])
-        self.assertEqual(list(places[3].nearby()), [places[0], places[1], places[2]])
+        self.assertEqual(list(places[2].nearby()), [places[1], places[0], places[3]])
+        self.assertEqual(list(places[3].nearby()), [places[2], places[1], places[0]])
         self.assertEqual(list(places[4].nearby()), [])
         self.assertEqual(list(places[5].nearby()), [])
         
@@ -71,32 +73,32 @@ class PlaceModelTest(TestCase):
     def test_getting_place_current_address(self):
         test_place = Place.objects.create(title='place', description='description')
         
+        self.assertEqual(test_place.current_address(), None)
+        self.assertEqual(list(test_place.previous_addresses()), [])
+        
         addresses = []
         for c in 'abcde':
             addresses.append(Address.objects.create(address=c, city='Philadelphia', state='PA', place=test_place))
         
         self.assertEqual(test_place.address_set.all().count(), 5)
-        self.assertEqual(test_place.current_address(), None)
-        self.assertEqual(list(test_place.previous_addresses()), list(test_place.address_set.all()))
-        self.assertEqual(test_place.previous_addresses().count(), 5)
+        self.assertEqual(test_place.current_address(), addresses[0])
+        self.assertEqual(
+            list(test_place.previous_addresses()), 
+            [addresses[1], addresses[2], addresses[3], addresses[4]])
+        self.assertEqual(test_place.previous_addresses().count(), 4)
         
-        addresses[1].current = True
-        addresses[1].save()
+        addresses[0].sort_value = 2
+        addresses[0].save()
         
         self.assertEqual(test_place.current_address(), addresses[1])
         self.assertEqual(test_place.previous_addresses().count(), 4)
         
-        addresses[0].current = True
-        addresses[0].sort_value = 1
-        addresses[0].save()
+        addresses[2].sort_value = -1
+        addresses[2].save()
         
-        self.assertEqual(test_place.current_address(), addresses[1])
-        self.assertEqual(test_place.previous_addresses().count(), 3)
+        self.assertEqual(test_place.current_address(), addresses[2])
+        self.assertEqual(test_place.previous_addresses().count(), 4)
         
-        addresses[1].sort_value = 2
-        addresses[1].save()
-        
-        self.assertEqual(test_place.current_address(), addresses[0])
         
         
     def test_images_extended(self):
@@ -237,5 +239,60 @@ class PlacePageTest(TestCase):
     #     self.assertContains(response, second_image.attribution)
     #     self.assertContains(response, "-34.0001,20.9999")
         
+class MapTilerTest(TestCase):
     
+    def setUp(self):
+        self.test_place = Place.objects.create(title='place 1', 
+            description='description 1',
+            location=Point(-75.156, 39.957))
+            
+        self.nearby_test_place = Place.objects.create(title='place 2', 
+            description='description 2',
+            location=Point(-75.157, 39.958))
+            
+        self.faraway_place = Place.objects.create(title='place 3', 
+            description='description 3',
+            location=Point(-74, 39))
+    
+    def tearDown(self):
+        cache.clear()
+    
+    def test_map_properties(self):   
+        properties = self.test_place.map_properties()
+        
+        self.assertEqual(properties["id"], self.test_place.id)
+        self.assertEqual(properties["title"], self.test_place.title)
+        self.assertEqual("address" in properties, False)
+        self.assertEqual("image" in properties, False)
+        
+        Address.objects.create(address="123 elm st", city='Philadelphia', state='PA', place=self.test_place)
+        self.assertEqual(self.test_place.map_properties()["address"], "123 elm st")
+
+    def test_tiler(self):
+        response = self.client.get('/places/map/tiles/13/2385/3102/')
+
+        decoded = mapbox_vector_tile.decode(response.content)
+
+        self.assertEqual(len(decoded['places']['features']), 2)
+        self.assertEqual(decoded['places']['features'][0]['properties'], {
+            'id': 1,
+            'title': 'place 1'
+        })
+        self.assertEqual(decoded['places']['features'][1]['properties'], {
+            'id': 2,
+            'title': 'place 2'
+        })
+        
+    def test_tiler_address(self):
+        Address.objects.create(address="123 elm st", city='Philadelphia', state='PA', place=self.test_place)
+
+        response = self.client.get('/places/map/tiles/13/2385/3102/')
+        decoded = mapbox_vector_tile.decode(response.content)
+        self.assertEqual(decoded['places']['features'][0]['properties'], {
+            'id': 1,
+            'title': 'place 1',
+            'address': '123 elm st'
+        })
+        
+        
     
