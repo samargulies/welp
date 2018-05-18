@@ -24,26 +24,43 @@
         </header>
         
         {% if place.images %}
-        <div
             {% if place.displays_images_extended %} 
-                class="place-detail__images place-detail__images--extended"
-            {% else %}
-                class="place-detail__images"
-            {% endif %}>
-            {% for image in place.images.all %}
-                <div class="place-detail__image {{image.classes}}">
-                    <img data-flickity-lazyload-srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
-                        data-flickity-lazyload-src="{{ image.safe_large.url }}"
-                        alt="{{ image.alt }}"
-                        />
-                    <footer>
-                        <div class="place-detail__image__attribution">
-                          {{ image.attribution }}
+                <div class="place-detail__images place-detail__images--extended">
+                    {% for image in place.images.all %}
+                        <div class="place-detail__image {{image.classes}}">
+                            <img data-flickity-lazyload-srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
+                                data-flickity-lazyload-src="{{ image.safe_large.url }}"
+                                alt="{{ image.alt }}"
+                                width="{{ image.safe_large.width }}"
+                                height="{{ image.safe_large.height }}"
+                                />
+                            <footer>
+                                <div class="place-detail__image__attribution">
+                                  {{ image.attribution }}
+                                </div>
+                            </header>
                         </div>
-                    </header>
+                    {% endfor %}
                 </div>
-            {% endfor %}
-        </div>
+            {% else %}
+                <div class="place-detail__images">
+                    {% for image in place.images.all %}
+                        <div class="place-detail__image {{image.classes}}">
+                            <img srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
+                                src="{{ image.safe_large.url }}"
+                                alt="{{ image.alt }}"
+                                width="{{ image.safe_large.width }}"
+                                height="{{ image.safe_large.height }}"
+                                />
+                            <footer>
+                                <div class="place-detail__image__attribution">
+                                  {{ image.attribution }}
+                                </div>
+                            </header>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}       
         {% endif %}
             
         <div class="place-detail__description">
