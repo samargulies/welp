@@ -4,6 +4,8 @@ if( document.querySelector('.place-detail__images--extended') !== null ) {
 		fullscreen: true, 
 		initialIndex: 1,
 		imagesLoaded: true,
+		setGallerySize: false,
+		percentPosition: true,
 		lazyLoad: 2,
 		on: {
 			staticClick: function( event, pointer, cellElement, cellIndex ) {
@@ -14,6 +16,7 @@ if( document.querySelector('.place-detail__images--extended') !== null ) {
 			
 			    flkty.select(cellIndex);
 				flkty.toggleFullscreen();
+				flkty.reposition()
 			}
 		}
 	});
