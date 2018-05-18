@@ -27,8 +27,8 @@
             {% if place.displays_images_extended %} 
                 <div class="place-detail__images place-detail__images--extended">
                     {% for image in place.images.all %}
-                        <div class="place-detail__image {{image.classes}}">
-                            <img data-flickity-lazyload-srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
+                        <div class="place-detail__cell {{image.classes}}">
+                            <img class="place-detail__image" data-flickity-lazyload-srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
                                 data-flickity-lazyload-src="{{ image.safe_large.url }}"
                                 alt="{{ image.alt }}"
                                 width="{{ image.safe_large.width }}"
@@ -45,8 +45,9 @@
             {% else %}
                 <div class="place-detail__images">
                     {% for image in place.images.all %}
-                        <div class="place-detail__image {{image.classes}}">
-                            <img srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
+                        <div class="place-detail__cell {{image.classes}}">
+                            <img class="place-detail__image" 
+                                srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
                                 src="{{ image.safe_large.url }}"
                                 alt="{{ image.alt }}"
                                 width="{{ image.safe_large.width }}"

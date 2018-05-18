@@ -146,14 +146,12 @@ img {
 
 .place-detail__images {
     grid-column-start: 1;
-    height: 40vh;
 }
 
 /* workaround for issues with auto and flickity */
 .place-detail__images:not(.flickity-enabled) {
     margin: 1rem auto;
 }
-
 
 .place-detail__images:not(.place-detail__images--extended) {
     max-width: 640px;
@@ -164,37 +162,60 @@ img {
     justify-items: center;
 }
 
-.place-detail__image {
-    margin: 0 1rem;
-}
-
-.place-detail__image img {
-  transition: opacity 0.4s;
-  opacity: 0;
-}
-
-.place-detail__image img.flickity-lazyloaded,
-.place-detail__image img.flickity-lazyerror {
-  opacity: 1;
-}
-
 .place-detail__images--extended {
     display: block;
     grid-column-start: span 2;
     background: #333;
     padding: 1rem 0;
+    height: 40vh;
 }
 
-.flickity-slider img:hover {
+.place-detail__images:not(.place-detail__images--extended) .place-detail__cell {
+    height: auto;
+}
+
+.place-detail__cell {
+    margin: 0 1rem;
+    display: grid;
+    grid-template-rows: 100%;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.flickity-enabled.is-fullscreen {
+    z-index: 100;
+}
+
+.flickity-enabled .place-detail__image {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    opacity: 0;
+    transition: opacity 0.4s;
+}
+.flickity-enabled .place-detail__image.flickity-lazyloaded,
+.flickity-enabled .place-detail__image.flickity-lazyerror {
+    opacity: 1;
+}
+
+/* allow rotating matchbooks on active (hacky version) */
+.place-detail__cell.category-matchbooks:active {
+    transform: rotate(180deg);
+}
+
+.flickity-viewport img {
+/*    max-width: unset;*/
+}
+
+.flickity-slider .place-detail__image:hover {
     cursor: pointer;
 }
 
-.is-fullscreen .place-detail__image {
-    height: 100%;
+.is-fullscreen .place-detail__cell {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .place-detail__address {
@@ -218,15 +239,6 @@ img {
     background: green;
 }
 
-/* allow rotating matchbooks on active (hacky version) */
-.place-detail__image.category-matchbooks:active {
-    transform: rotate(180deg);
-}
-
-.flickity-viewport img {
-    max-width: unset;
-}
-
 .place-detail__description {
     margin: 0 auto;
     max-width: 640px;
@@ -240,6 +252,10 @@ img {
     padding: 1rem;
     margin-right: -1rem;
     background: var(--light-accent-color);
+}
+
+.place-detail__images--extended ~ .place-detail__sidebar {
+    grid-row: 3;
 }
 
 .place-detail .map__container {
@@ -261,10 +277,6 @@ img {
 .related-place__title {
     color: var(--primary-color);
     font-weight: 500;
-}
-
-.place-detail__images--extended ~ .place-detail__sidebar {
-    grid-row: 3;
 }
 
 .map-page .map__container {
