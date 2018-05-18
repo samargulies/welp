@@ -1,9 +1,17 @@
 {% extends 'places/base.html' %}
+{% load martortags %}
+
+{% block title %}
+  {{ title|default:"" }} - Welp
+{% endblock %}
 
 {% block content %}
     <div class="places-page page page--full">
         <header class="page__header">
-            <h1 class="page__title">{{ title|default:"" }}</h1>
+            <div class="page__header__content">
+                <h1 class="page__title">{{ title|default:"" }}</h1>
+                <div class="page__description">{{ description|safe_markdown }}</div>
+            </div>
         </header>
         <div class="places__list">
             {% if place_list %}

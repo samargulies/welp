@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point
 from django.core.files import File
 import mapbox_vector_tile
 
-from .models import Place, Image, PlaceCategory, ImageCategory, Address
+from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceChain
 
 def create_image(title):
     image = Image()
@@ -99,8 +99,6 @@ class PlaceModelTest(TestCase):
         self.assertEqual(test_place.current_address(), addresses[2])
         self.assertEqual(test_place.previous_addresses().count(), 4)
         
-        
-        
     def test_images_extended(self):
         new_place = Place.objects.create(title='place', description='description')
         images = [create_image(c) for c in '12']
@@ -110,6 +108,20 @@ class PlaceModelTest(TestCase):
         # is true if there are multiple images
         new_place.images.add(images[1])
         self.assertTrue(new_place.displays_images_extended())
+        
+    def test_chains(self):
+        chain = PlaceChain.objects.create(title='', description='')
+        non_chain_place = Place.objects.create(title='place 1')
+        chain_place_1 = Place.objects.create(title='chain place 1', chain=chain)
+        
+        self.assertEqual(list(chain.place_set.all()), [chain_place_1])
+        self.assertEqual(chain_place_1.chain, chain)
+        
+        chain_place_2 = Place.objects.create(title='chain place 2', chain=chain)
+        self.assertEqual(list(chain.place_set.all()), [chain_place_1, chain_place_2])
+        
+        self.assertEqual(list(chain_place_2.other_chain_locations()), [chain_place_1])
+        self.assertEqual(non_chain_place.other_chain_locations(), None)
         
 
 class CategoriesTest(TestCase):

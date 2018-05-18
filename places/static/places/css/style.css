@@ -1,7 +1,10 @@
 :root {
     --primary-color: hsl(14, 100%, 51%);
     --primary-color-rgb: 255, 63, 5;
+    --accent-color: hsl(120, 22%, 86%);
     --light-accent-color: hsl(120, 50%, 98%);
+    --light-text-color: #888;
+    --link-color: #19f;
     --footer-color: #eee;
 }
 
@@ -61,7 +64,7 @@ img {
 .site-header__search {
     display: flex;
     align-items: center;
-    max-width: 320px;
+    max-width: 440px;
     margin: 1rem;
 }
 
@@ -79,7 +82,7 @@ img {
     padding-bottom: 2rem;
 }
 
-.page--full .page__title {
+.page--full .page__header__content {
     margin: 1.5rem auto 0;
     max-width: 640px;
     width: 100%;
@@ -133,12 +136,44 @@ img {
     max-width: 640px;
     width: 100%;
 }
+
 .place-detail__title {
     color: var(--primary-color);
     font-size: 2.5rem;
     line-height: 1;
     font-weight: 500;
     margin: 0 0 0.5rem;
+}
+
+.place-detail__address {
+    display: inline-block;
+    font-size: 1.25rem;
+    color: var(--light-text-color);
+    font-weight: 500;
+}
+
+.place-detail__categories {
+    display: inline-block;
+}
+
+.place-detail__category {
+    display: inline;
+    background: red;
+    padding: 0 .5rem;
+    border-radius: 12px;
+    margin: 0 0.25rem;
+    color: white;   
+}
+
+.place-detail__category.category-extant {
+    background: green;
+}
+
+.place-detail__header .edit-links {
+    display: inline-block;
+    font-weight: 500;
+    color: var(--link-color);
+    text-decoration: underline;
 }
 
 .place-detail__images:not(.is-fullscreen) {
@@ -179,6 +214,7 @@ img {
     margin: 0 1rem;
     display: grid;
     grid-template-rows: 100%;
+    grid-template-columns: max-content;
     align-content: center;
     justify-content: center;
     align-items: center;
@@ -219,30 +255,6 @@ img {
     width: 100%;
 }
 
-.place-detail__address {
-    display: inline-block;
-    font-size: 1.25rem;
-    color: #888;
-    font-weight: 500;
-}
-
-.place-detail__categories {
-    display: inline-block;
-}
-
-.place-detail__category {
-    display: inline;
-    background: red;
-    padding: 0 .5rem;
-    border-radius: 12px;
-    margin: 0 0.25rem;
-    color: white;   
-}
-
-.place-detail__category.category-extant {
-    background: green;
-}
-
 .place-detail__description {
     margin: 0 auto;
     max-width: 640px;
@@ -264,18 +276,20 @@ img {
 
 .place-detail .map__container {
     height: 240px;
-    max-width: 440px;
 }
 
 .place-detail__meta {
-    margin: 1rem 0;
+    margin: 0 0 2rem;
+    max-width: 440px;
 }
 
 .place-detail__meta__title {
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    font-weight: 700;
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-bottom: 2px solid var(--accent-color);
+    padding-bottom: 0.5rem;
 }
 
 .related-place__title {
@@ -305,7 +319,7 @@ img {
 }
 .map-popup__address {
     margin: 0;
-    color: #999;
+    color: var(--light-text-color);
     grid-area: address;
 }
 .map-popup__image {
@@ -319,6 +333,7 @@ img {
     display: grid;
     grid-template-columns: 2fr 1fr;
     min-height: 20vh;
+    padding: 0 1rem;
 }
 
 .site-footer__nav {
@@ -344,6 +359,10 @@ img {
     
     .site-header__search {
         margin: 0;
+    }
+    
+    .place-detail__title {
+        font-size: 1.875rem;
     }
     
     .place-detail > * {

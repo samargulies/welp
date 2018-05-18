@@ -107,6 +107,13 @@ class Address(models.Model):
     
     def __str__(self):
         return self.address
+
+class PlaceChain(models.Model):
+    title = models.CharField(max_length=256)
+    description = models.TextField(blank=True)
+    
+    def __str__(self):
+        return self.title
         
 class Place(models.Model):
     title = models.CharField(max_length=256)
@@ -116,6 +123,7 @@ class Place(models.Model):
     categories = models.ManyToManyField('PlaceCategory', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    chain = models.ForeignKey('PlaceChain', null=True, on_delete=models.CASCADE)
     
     def map_properties(self):
         properties = {
@@ -140,6 +148,11 @@ class Place(models.Model):
     
     def previous_addresses(self):
         return self.address_set.all()[1:]
+    
+    def other_chain_locations(self):
+        if not self.chain:
+            return
+        return self.chain.place_set.exclude(pk=self.pk).all()[:5]
     
     # return 5 nearest places within 5km
     def nearby(self):

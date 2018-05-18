@@ -5,7 +5,7 @@ from martor.widgets import AdminMartorWidget
 from imagekit.admin import AdminThumbnail
 from leaflet.admin import LeafletGeoAdminMixin
 
-from .models import Place, Image, PlaceCategory, ImageCategory, Address
+from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceChain
 
 class ImageCategoryInline(nested_admin.NestedTabularInline):
     model = Image.categories.through
@@ -34,6 +34,13 @@ class PlaceCategoryInline(nested_admin.NestedTabularInline):
     extra = 0
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
+
+class PlaceChainAdmin(nested_admin.NestedModelAdmin):
+    model = PlaceChain
+    
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMartorWidget},
+    }
     
 class PlaceAdmin(LeafletGeoAdminMixin, nested_admin.NestedModelAdmin):
     formfield_overrides = {
@@ -69,3 +76,4 @@ admin.site.register(Place, PlaceAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(ImageCategory)
 admin.site.register(PlaceCategory)
+admin.site.register(PlaceChain, PlaceChainAdmin)

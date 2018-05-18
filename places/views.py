@@ -7,7 +7,7 @@ from . import map_tiler
 SRID_LNGLAT = 4326
 SRID_SPHERICAL_MERCATOR = 3857  
   
-from .models import Place, Image, PlaceCategory
+from .models import Place, Image, PlaceCategory, PlaceChain
 
 class IndexView(generic.ListView):
     model = Place
@@ -27,6 +27,18 @@ class CategoryView(generic.DetailView):
         context['place_list'] = Place.objects.filter(categories__in=[context['category']])
         return context
 
+class ChainView(generic.DetailView):
+    model = PlaceChain
+    template_name = 'places/place_list.html'
+    context_object_name = 'chain'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "{} Locations".format(context['chain'].title)
+        context['description'] = context['chain'].description
+        context['place_list'] = context['chain'].place_set.all()
+        return context
+        
 class MapView(generic.TemplateView):
     template_name = 'places/map.html'
   
