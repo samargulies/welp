@@ -11,7 +11,7 @@ from django_comments.moderation import CommentModerator, moderator
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
 
     class Meta:
@@ -120,11 +120,11 @@ class Place(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField(blank=True)
     images = SortedManyToManyField(Image)
-    location = models.PointField(null=True)
+    location = models.PointField(null=True, blank=True)
     categories = models.ManyToManyField('PlaceCategory', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    chain = models.ForeignKey('PlaceChain', null=True, on_delete=models.CASCADE)
+    chain = models.ForeignKey('PlaceChain', null=True, blank=True, on_delete=models.CASCADE)
     
     def map_properties(self):
         properties = {

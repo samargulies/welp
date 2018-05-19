@@ -3,20 +3,22 @@ from django.contrib.gis import admin
 import nested_admin
 from martor.widgets import AdminMartorWidget
 from imagekit.admin import AdminThumbnail
-from leaflet.admin import LeafletGeoAdminMixin
+from mapwidgets.widgets import GooglePointFieldWidget
+from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceChain
 
 class ImageCategoryInline(nested_admin.NestedTabularInline):
     model = Image.categories.through
-    extra = 0
+    extra = 1
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
    
 class ImagesInline(nested_admin.NestedTabularInline):
     model = Place.images.through
     sortable_field_name = 'sort_value'
-    extra = 0
+    extra = 1
     verbose_name = 'Image'
     verbose_name_plural = 'Images'
     # inlines = [
@@ -27,11 +29,11 @@ class ImagesInline(nested_admin.NestedTabularInline):
 class AddressesInline(nested_admin.NestedTabularInline):
     model = Address
     sortable_field_name = 'sort_value'
-    extra = 0
+    extra = 1
     
 class PlaceCategoryInline(nested_admin.NestedTabularInline):
     model = Place.categories.through
-    extra = 0
+    extra = 1
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
 
@@ -42,17 +44,18 @@ class PlaceChainAdmin(nested_admin.NestedModelAdmin):
         models.TextField: {'widget': AdminMartorWidget},
     }
     
-class PlaceAdmin(LeafletGeoAdminMixin, nested_admin.NestedModelAdmin):
+class PlaceAdmin(nested_admin.NestedModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
+        models.PointField: {"widget": GooglePointFieldWidget},
     }
     
     settings_overrides = {
-       'DEFAULT_CENTER': (39.95, -75.16),
-       'DEFAULT_ZOOM': 14,
-       'TILES': [('', 
-           'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FtYXJndWxpZXMiLCJhIjoiY2E3c2laTSJ9.v0zuT22Dw8b72E-TRFbFaQ',
-           '')]
+        'DEFAULT_CENTER': (39.95, -75.16),
+        'DEFAULT_ZOOM': 14,
+        'TILES': [('', 
+            'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FtYXJndWxpZXMiLCJhIjoiY2E3c2laTSJ9.v0zuT22Dw8b72E-TRFbFaQ',
+        '')],
     }
     
     inlines = [
@@ -61,6 +64,15 @@ class PlaceAdmin(LeafletGeoAdminMixin, nested_admin.NestedModelAdmin):
         PlaceCategoryInline
     ]
     exclude = ('images','categories')
+    
+    readonly_fields = ['link']
+
+    def link(self, obj):
+        if not obj.id:
+            return ""
+        url = reverse('places:detail', args=[obj.id])
+        return mark_safe(f"<a href='{url}'>View on site</a>")
+    
 
 class ImageAdmin(nested_admin.NestedModelAdmin):
     inlines = [

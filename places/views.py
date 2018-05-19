@@ -23,7 +23,7 @@ class CategoryView(generic.DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "{} Establishments".format(context['category'].name)
+        context['title'] = "Category: {}".format(context['category'].name)
         context['place_list'] = Place.objects.filter(categories__in=[context['category']])
         return context
 

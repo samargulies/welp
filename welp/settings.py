@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'localflavor',
     'imagekit',
     'storages',
-    'leaflet',
+    'mapwidgets',
     'django.contrib.sites',
     'django_comments',
 ]
@@ -81,6 +81,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'welp.wsgi.application'
 
+MAP_WIDGETS = config.MAP_WIDGETS
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

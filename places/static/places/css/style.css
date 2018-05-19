@@ -17,6 +17,10 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.5rem;
 }
 
+figure {
+    margin: 0;
+}
+
 body {
     margin: 0;
     font-size: 16px;
@@ -147,7 +151,7 @@ img {
 
 .place-detail__address {
     display: inline-block;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     color: var(--light-text-color);
     font-weight: 500;
 }
@@ -210,7 +214,7 @@ img {
     height: auto;
 }
 
-.place-detail__cell {
+.place-detail__images--extended .place-detail__cell {
     margin: 0 1rem;
     display: grid;
     grid-template-rows: 100%;
@@ -299,9 +303,21 @@ img {
     padding-bottom: 0.5rem;
 }
 
+.related-place {
+    margin-bottom: 0.5rem;
+}
 .related-place__title {
     color: var(--primary-color);
     font-weight: 500;
+    font-size: 1.125rem;
+    margin: 0;
+}
+.related-place__address {
+    color: var(--light-text-color);
+}
+
+.comment-form__honeypot {
+    display: none;
 }
 
 .map-page .map__container {

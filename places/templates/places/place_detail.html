@@ -52,7 +52,7 @@
             {% else %}
                 <div class="place-detail__images">
                     {% for image in place.images.all %}
-                        <div class="place-detail__cell {{image.classes}}">
+                        <figure class="place-detail__cell {{image.classes}}">
                             <img class="place-detail__image" 
                                 srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
                                 src="{{ image.safe_large.url }}"
@@ -60,12 +60,15 @@
                                 width="{{ image.safe_large.width }}"
                                 height="{{ image.safe_large.height }}"
                                 />
+                            <figcaption class="place-detail__image__title">
+                                {{ image.title }}
+                            </figcaption>
                             <footer>
                                 <div class="place-detail__image__attribution">
                                   {{ image.attribution }}
                                 </div>
                             </header>
-                        </div>
+                        </figure>
                     {% endfor %}
                 </div>
             {% endif %}       
