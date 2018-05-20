@@ -7,7 +7,7 @@ from mapwidgets.widgets import GooglePointFieldWidget
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 
-from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceChain
+from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceChain, Building
 
 class ImageCategoryInline(nested_admin.NestedTabularInline):
     model = Image.categories.through
@@ -43,7 +43,14 @@ class PlaceChainAdmin(nested_admin.NestedModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
     }
+
+class BuildingAdmin(nested_admin.NestedModelAdmin):
+    model = Building
     
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMartorWidget},
+    } 
+   
 class PlaceAdmin(nested_admin.NestedModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
@@ -89,3 +96,4 @@ admin.site.register(Image, ImageAdmin)
 admin.site.register(ImageCategory)
 admin.site.register(PlaceCategory)
 admin.site.register(PlaceChain, PlaceChainAdmin)
+admin.site.register(Building, BuildingAdmin)

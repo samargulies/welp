@@ -118,6 +118,14 @@ class PlaceChain(models.Model):
     
     def __str__(self):
         return self.title
+
+
+class Building(models.Model):
+    title = models.CharField(max_length=256)
+    description = models.TextField(blank=True)
+    
+    def __str__(self):
+        return self.title
  
         
 class Place(models.Model):
@@ -129,6 +137,7 @@ class Place(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     chain = models.ForeignKey('PlaceChain', null=True, blank=True, on_delete=models.CASCADE)
+    building = models.ForeignKey('Building', null=True, blank=True, on_delete=models.CASCADE)
     
     def map_properties(self):
         properties = {
@@ -158,6 +167,11 @@ class Place(models.Model):
         if not self.chain:
             return
         return self.chain.place_set.exclude(pk=self.pk).all()[:5]
+        
+    def other_building_locations(self):
+        if not self.building:
+            return
+        return self.building.place_set.exclude(pk=self.pk).all()[:5]
     
     # return 5 nearest places within 5km
     def nearby(self):

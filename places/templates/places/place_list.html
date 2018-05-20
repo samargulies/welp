@@ -2,7 +2,7 @@
 {% load martortags %}
 
 {% block title %}
-  {{ title|default:"" }} - Welp
+    {{ title|default:"" }}{{ title|yesno:" -," }} Welp
 {% endblock %}
 
 {% block content %}
@@ -35,6 +35,19 @@
                         </a>
                     </article>
                 {% endfor %}
+                {% if is_paginated %}
+                    <nav class="pagination">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                            {% endif %}
+                            <span class="page-current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </span>
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            {% endif %}
+                    </nav>
+                    {% endif %}
             {% else %}
                 <p>No places found</p>
             {% endif %}
