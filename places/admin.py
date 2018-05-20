@@ -11,14 +11,14 @@ from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceCh
 
 class ImageCategoryInline(nested_admin.NestedTabularInline):
     model = Image.categories.through
-    extra = 1
+    extra = 0
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
    
 class ImagesInline(nested_admin.NestedTabularInline):
     model = Place.images.through
     sortable_field_name = 'sort_value'
-    extra = 1
+    extra = 0
     verbose_name = 'Image'
     verbose_name_plural = 'Images'
     # inlines = [
@@ -29,11 +29,11 @@ class ImagesInline(nested_admin.NestedTabularInline):
 class AddressesInline(nested_admin.NestedTabularInline):
     model = Address
     sortable_field_name = 'sort_value'
-    extra = 1
+    extra = 0
     
 class PlaceCategoryInline(nested_admin.NestedTabularInline):
     model = Place.categories.through
-    extra = 1
+    extra = 0
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
 
