@@ -20,6 +20,9 @@
                         <a href="{% url 'places:detail' place.id %}">
                         <header>
                             <h2 class="place__title">{{ place.title }}</h2>
+                            <div class="place__address">
+                                {{ place.current_address|default:"" }}
+                            </div>
                         </header>
                         {% if place.featured_image.image_thumbnail %}
                             <div class="place__thumbnail">
@@ -29,9 +32,6 @@
                                     width="{{place.featured_image.image_thumbnail.width}}" />
                             </div>
                         {% endif %}
-                        <div class="place__address">
-                            {{ place.current_address|default:"" }}
-                        </div>
                         </a>
                     </article>
                 {% endfor %}

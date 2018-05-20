@@ -105,28 +105,45 @@ img {
 }
 
 .places__list .place {
-    background: var(--primary-color);
+    background: rgba(var(--primary-color-rgb), 0.1);
     padding: 1rem;
     border-radius: 8px;
     display: flex;
-}
-
-.places__list .place:hover .place__title,
-.places__list .place:focus .place__title {
-    color: var(--primary-color);
-}
-
-.places__list .place:hover,
-.places__list .place:focus {
-    background: rgba(var(--primary-color-rgb), 0.1);
 }
 
 .places__list .place__title {
     font-size: 1.5rem;
     line-height: 1.2;
     font-weight: 500;
-    margin: 0 0 1rem;
+    margin: 0 0 0.5rem;
     color: white;
+}
+
+.places__list .place__address{
+    margin: 0 0 0.5rem;
+    font-weight: 400;
+    color: #555;
+}
+
+.places__list .place .place__title,
+.places__list .place .place__title {
+    color: var(--primary-color);
+}
+
+.places__list .place:hover .place__title,
+.places__list .place:focus .place__title {
+    color: white;
+}
+
+.places__list .place:hover .place__address,
+.places__list .place:focus .place__address {
+    color: white;
+    opacity: 0.8;
+}
+
+.places__list .place:hover,
+.places__list .place:focus {
+    background: var(--primary-color);
 }
 
 .place-detail {

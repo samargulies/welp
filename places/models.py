@@ -27,12 +27,13 @@ class Category(models.Model):
             parent_cat = parent_cat.parent
         return '/'.join(full_path[::-1])
 
+
 class ImageCategory(Category):  
      class Meta:
          verbose_name = 'Image Category'
          verbose_name_plural = 'Image Categories'
 
-    
+
 class Image(models.Model):
     image = models.ImageField(upload_to='%Y/%m/%d')
     image_thumbnail = ImageSpecField(source='image',
@@ -52,7 +53,6 @@ class Image(models.Model):
     description = models.TextField(blank=True)
     alt = models.CharField(max_length=256, blank=True)
     attribution = models.CharField(max_length=256, blank=True)
-    license = models.CharField(max_length=256, blank=True)
     categories = models.ManyToManyField('ImageCategory', blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -89,10 +89,12 @@ class Image(models.Model):
     def __str__(self):
         return self.title or os.path.basename(self.image.name)
 
+
 class PlaceCategory(Category):
     class Meta:
         verbose_name = 'Place Category'
         verbose_name_plural = 'Place Categories'
+
 
 class Address(models.Model):
     address = models.CharField(max_length=64)
@@ -109,12 +111,14 @@ class Address(models.Model):
     def __str__(self):
         return self.address
 
+
 class PlaceChain(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField(blank=True)
     
     def __str__(self):
         return self.title
+ 
         
 class Place(models.Model):
     title = models.CharField(max_length=256)
@@ -168,6 +172,7 @@ class Place(models.Model):
     
     def __str__(self):
         return self.title
+
         
 class PlaceModerator(CommentModerator):
     # email_notification = True
