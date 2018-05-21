@@ -143,7 +143,7 @@ class Place(models.Model):
     
     class Meta:
        ordering = ['-updated']
-       
+     
     def map_properties(self):
         # for buildings, link to the building for the name and url
         # but still include the image and address from the place
@@ -193,12 +193,14 @@ class Place(models.Model):
         if not self.location:
             return
         
-        return Place.objects.exclude(location__isnull=True)\
+        query = Place.objects.exclude(location__isnull=True)\
             .exclude(pk=self.pk)\
-            .exclude(building=self.building)\
             .filter(location__distance_lte=(self.location, D(km=5)))\
             .annotate(distance=Distance('location', self.location))\
-            .order_by('distance')[:5]
+            .order_by('distance')        
+        if self.building:
+            query = query.exclude(building=self.building)
+        return query[:5]
     
     def __str__(self):
         return self.title
@@ -209,4 +211,4 @@ class PlaceModerator(CommentModerator):
     auto_moderate_field = 'created'
     moderate_after = 0
 
-moderator.register(Place, PlaceModerator)
+# moderator.register(Place, PlaceModerator)

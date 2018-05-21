@@ -18,8 +18,8 @@
         <h1 class="site-header__logo">
             <a href="{% url 'index' %}">{% svg 'logo' %}</a>
         </h1>
-        <form class="site-header__search">
-            <input name="s" placeholder="Search Establishments" />
+        <form class="site-header__search" action="{% url 'places:search' %}">
+            <input name="s" placeholder="Search Establishments" value="{{ search|default:"" }}" />
         </form>
     </header>
     <div class="content">

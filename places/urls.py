@@ -6,6 +6,7 @@ from . import views
 app_name = 'places'
 urlpatterns = [
     path('<int:pk>/', views.DetailView.as_view(), name='detail'),
+    path('search/', views.SearchView.as_view(), name='search'),
     path('chains/<int:pk>/', views.ChainView.as_view(), name='chain'),
     path('building/<int:pk>/', views.BuildingView.as_view(), name='building'),
     path('category/<slug:slug>/', views.CategoryView.as_view(), name='category'),

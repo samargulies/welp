@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.urls import reverse
 from django.views import generic, View
+from django.contrib.postgres.search import SearchVector
 from . import map_tiler
 from .models import Place, Image, PlaceCategory, PlaceChain, Building
 
@@ -27,6 +28,22 @@ class CategoryView(generic.DetailView):
         context['place_list'] = Place.objects.filter(categories__in=[context['category']])
         return context
 
+class SearchView(generic.ListView):
+    model = Place
+    template_name = 'places/place_list.html'
+    paginate_by = PAGINATE_BY
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Search"
+        context['search'] = self.request.GET.get('s')
+        context['place_list'] = Place.objects.annotate(
+            search=SearchVector(
+                'title', 'aliases', 'description', 'images__title', 'images__description', 'aliases', 
+                'chain__title', 'building__title', 'address__address'
+            )).filter(search=context['search'])        
+        return context
+        
 class ChainView(generic.DetailView):
     model = PlaceChain
     template_name = 'places/place_list.html'
