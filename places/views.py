@@ -35,14 +35,17 @@ class SearchView(generic.ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context_object_name = 'place_list'
         context['title'] = "Search"
-        context['search'] = self.request.GET.get('s')
-        context['place_list'] = Place.objects.annotate(
+        context['search'] = self.request.GET.get('s')    
+        return context
+        
+    def get_queryset(self):
+        return Place.objects.annotate(
             search=SearchVector(
                 'title', 'aliases', 'description', 'images__title', 'images__description', 'aliases', 
                 'chain__title', 'building__title', 'address__address'
-            )).filter(search=context['search'])        
-        return context
+            )).filter(search=self.request.GET.get('s'))
         
 class ChainView(generic.DetailView):
     model = PlaceChain
