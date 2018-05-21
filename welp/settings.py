@@ -86,14 +86,9 @@ MAP_WIDGETS = config.MAP_WIDGETS
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = config.DATABASES
 
-SITE_ID = 1
+SITE_ID = config.SITE_ID
 
 # Caches
 # https://docs.djangoproject.com/en/2.0/topics/cache/
@@ -164,4 +159,5 @@ IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'welp.image_generators.FixJustInTime'
 
 # GeoDjango configuration
 # https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/#spatialite-macos
-SPATIALITE_LIBRARY_PATH = config.SPATIALITE_LIBRARY_PATH
+if config.SPATIALITE_LIBRARY_PATH:
+    SPATIALITE_LIBRARY_PATH = config.SPATIALITE_LIBRARY_PATH

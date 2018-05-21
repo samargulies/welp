@@ -17,3 +17,10 @@ MAP_WIDGETS = {
     ),
     "GOOGLE_MAP_API_KEY": "<google-api-key>"
 }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+SITE_ID = 1

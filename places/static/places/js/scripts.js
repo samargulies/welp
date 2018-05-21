@@ -196,12 +196,16 @@ if( document.getElementById('map__container') !== null ) {
 	});
 }
 
-// if( document.getElementById('comment__editor') !== null ) {
-
-	var editor = new Editor({
-		element: document.getElementById('comment__editor'),
-		status: false
-	});
-	editor.render();
+if( document.getElementById('add-comment__text-editor') !== null ) {
 	
-// }
+	var simplemde = new SimpleMDE({ 
+		element: document.getElementById("add-comment__text-editor"),
+		toolbar: ["bold", "italic", "|", "link", "|", "unordered-list", "ordered-list", "|", "quote", "preview", "guide"],
+		status: false,
+		spellChecker: false
+	});
+	
+	simplemde.codemirror.options.extraKeys['Tab'] = false;
+	simplemde.codemirror.options.extraKeys['Shift-Tab'] = false;
+
+}

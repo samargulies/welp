@@ -7,9 +7,9 @@
     {% for comment in comment_list %}
         <article id="c{{ comment.id }}" class="comment">
             <div class="comment__content">{{ comment.comment|safe_markdown }}</div>
-            <footer>
+            <footer class="comment_meta">
+                <div class="comment__date">{{ comment.submit_date|date:"M d, Y" }}</div>
                 <div class="comment__author">{{ comment.name }}</div>
-                <div class="comment__date">{{ comment.submit_date }}</div>
             </footer>
         </article>
     {% endfor %}

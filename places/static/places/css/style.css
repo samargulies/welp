@@ -17,6 +17,10 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0 0.5rem;
 }
 
+p {
+    margin: 0 0 1rem;
+}
+
 figure {
     margin: 0;
 }
@@ -333,10 +337,6 @@ img {
     color: var(--light-text-color);
 }
 
-.comment-form__honeypot {
-    display: none;
-}
-
 .map-page .map__container {
     height: 60vh;
     margin-bottom: 2rem;
@@ -366,6 +366,121 @@ img {
     max-height: 48px;
     margin-right: 0.5rem;
     grid-area: image;
+}
+
+.comments {
+    margin-bottom: 2rem;
+}
+.comments__title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.comment__content {
+    padding: 1rem;
+    border: 2px solid var(--accent-color);
+    border-radius: 4px;
+}
+
+.comment {
+    margin-bottom: 2rem;
+}
+.comment__content > *:last-child {
+    margin-bottom: 0;
+}
+
+.comment_meta {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem
+}
+
+.comment__date {
+    color: var(--light-text-color);
+}
+.comment__date:after {
+    content: '\2022';
+    margin: 0 .5rem;
+    color: #ccc;
+    font-size: 0.75rem;
+}
+
+.comment__author {
+    font-weight: 500;
+}
+
+.add-comment__title {
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.add-comment {
+    margin-bottom: 2rem;
+}
+.add-comment__form {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 1rem;
+    grid-template-areas: 
+        "editor editor editor"
+        "name email submit";
+}
+
+.add-comment__label {
+    display: none;
+}
+.add-comment__field {
+    margin: 1rem 0 0;
+    max-width: 25rem;
+}
+.add-comment__input {
+    font-size: 1rem;
+    padding: 0.25rem;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+
+.add-comment__field--submit {
+    justify-self: end;
+}
+
+.add-comment__field__submit {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+}
+
+.add-comment__field__submit:hover,
+.add-comment__field__submit:active {
+    background: rgba(var(--primary-color-rgb), 0.1);
+    color: var(--primary-color);
+}
+
+.add-comment__field__submit:focus {
+    background: rgba(var(--primary-color-rgb), 0.8);
+    color: white;
+}
+
+.add-comment__text-editor {
+    grid-area: editor;
+}
+
+.add-comment__honeypot {
+    display: none;
+}
+
+/* move guide and preview buttons to the right of the comment editor toolbar */
+.add-comment .editor-toolbar a:nth-last-child(-n+2) {
+    float: right;
+}
+/* comment editor max height */
+.CodeMirror, .CodeMirror-scroll {
+	max-height: 300px;
+    min-height: 100px;
 }
 
 .site-footer {
@@ -406,7 +521,7 @@ img {
     }
     
     .place-detail > * {
-        grid-column: 1/ 4;
+        grid-column: 1 / 4;
         max-width: auto;
     }
     
@@ -416,5 +531,17 @@ img {
         padding-left: 0;
         padding-right: 0;
         grid-row: 4;
+    }
+    
+    .add-comment__form > * {
+        grid-column: 1 / 4;
+    }
+    
+    .add-comment__input {
+        padding: 0.5rem;
+    }
+    
+    .add-comment__field__submit {
+        padding: 0.5rem 1rem;
     }
 }

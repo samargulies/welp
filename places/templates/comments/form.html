@@ -1,8 +1,8 @@
 {% load comments i18n %}
 
-<div class="comments-form">
-    <h2 class="comments-form__title">Add a comment</h2>
-    <form action="{% comment_form_target %}" method="post">{% csrf_token %}
+<div class="add-comment">
+    <h2 class="add-comment__title">Add a comment</h2>
+    <form class="add-comment__form" action="{% comment_form_target %}" method="post">{% csrf_token %}
         <input type="hidden" name="next" value="{% url 'places:detail' place.id %}"/>
         {% for field in form %}
             {% if field.is_hidden %}
@@ -11,20 +11,20 @@
                 {% if field.errors %}{{ field.errors }}{% endif %}
             {% endif %}
         {% endfor %}
-        <input type="text" name="honeypot" class="comment-form__honeypot">
-        <div class="comment-form__field">
-            <label for="id_name">Name</label>
-            <input type="text" name="name" maxlength="50" required="" id="id_name">
+        <input type="text" name="honeypot" class="add-comment__honeypot">
+        <div class="add-comment__text-editor">
+            <textarea name="comment" id="add-comment__text-editor" class="add-comment__text_editor" id="id_comment"></textarea>
         </div>
-        <div class="comment-form__field">
-            <label for="id_email">Email address</label>
-            <input type="email" name="email" id="id_email">
+        <div class="add-comment__field add-comment__field--input">
+            <label class="add-comment__label" for="id_name">Name</label>
+            <input class="add-comment__input" placeholder="Name" type="text" name="name" maxlength="50" required="" id="id_name">
         </div>
-        <div class="comment-form__field">
-            <textarea name="comment" id="comment__editor" class="comment__editor" id="id_comment"></textarea>
+        <div class="add-comment__field add-comment__field--input">
+            <label class="add-comment__label" for="id_email">Email address</label>
+            <input class="add-comment__input" placeholder="Email" type="email" name="email" id="id_email">
         </div>
-        <p class="submit">
-            <input type="submit" name="post" class="submit-post" value="{% trans "Post" %}"/>
-        </p>
+        <div class="add-comment__field add-comment__field--submit">
+            <input type="submit" name="post" class="add-comment__field__submit" value="{% trans "Post" %}"/>
+        </div>
     </form>
 </div>
