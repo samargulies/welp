@@ -59,6 +59,6 @@ class MapView(generic.TemplateView):
 class MapTilesView(View):
     def get(self, request, *args, **kwargs):
         xyz = (int(self.kwargs['x']), int(self.kwargs['y']), int(self.kwargs['z']))
-        tile = map_tiler.encode_objects_for_tile(Place, xyz=xyz)   
+        tile = map_tiler.encode_objects_for_tile(xyz=xyz)   
         return HttpResponse(tile)
         

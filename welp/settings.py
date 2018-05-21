@@ -93,6 +93,8 @@ DATABASES = {
     }
 }
 
+SITE_ID = 1
+
 # Caches
 # https://docs.djangoproject.com/en/2.0/topics/cache/
 CACHES = config.CACHES

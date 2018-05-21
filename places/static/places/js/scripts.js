@@ -42,6 +42,14 @@ if( document.getElementById('map__container') !== null ) {
 	}
 	var highlighted_place_id = parseInt(map_settings.placeId);
 
+	var highlight_filter = ["==", "id", highlighted_place_id];
+	var highlight_remove_filter = ["!=", "id", highlighted_place_id];
+	
+	if( typeof map_settings.buildingId !== 'undefined' ) {
+		var highlighted_building_id = parseInt(map_settings.buildingId);
+		highlight_filter = ["==", "building_id", highlighted_building_id];
+		highlight_remove_filter = ["!=", "building_id", highlighted_building_id];
+	}
 
 	var map = new mapboxgl.Map({
 	    container: 'map__container',
@@ -71,7 +79,7 @@ if( document.getElementById('map__container') !== null ) {
 	            },            
 	            "circle-opacity": 0.8
 	         },
-			"filter": ["!=", "id", highlighted_place_id],
+			"filter": highlight_remove_filter,
 	        "source-layer": "places"
 	    });
 	    map.addLayer({
@@ -96,7 +104,7 @@ if( document.getElementById('map__container') !== null ) {
 	            "text-halo-color": "#fff",
 	            "text-halo-width": 2
 	        },
-			"filter": ["!=", "id", highlighted_place_id],
+			"filter": highlight_remove_filter,
 	        "source-layer": "places"
 	    });
 	
@@ -112,7 +120,7 @@ if( document.getElementById('map__container') !== null ) {
 	            },            
 	            "circle-opacity": 0.8
 	         },
-			"filter": ["==", "id", highlighted_place_id],
+			"filter": highlight_filter,
 	        "source-layer": "places"
 	    });
 	    map.addLayer({
@@ -137,7 +145,7 @@ if( document.getElementById('map__container') !== null ) {
 	            "text-halo-color": "#fff",
 	            "text-halo-width": 2
 	        },
-			"filter": ["==", "id", highlighted_place_id],
+			"filter": highlight_filter,
 	        "source-layer": "places"
 	    });
     
@@ -149,14 +157,13 @@ if( document.getElementById('map__container') !== null ) {
 	    });
     
 	    map.on('click', 'places', function (e) {
-	        var id = e.features[0].properties.id;
-	        window.location = "/places/" + id + "/";
+	        window.location = e.features[0].properties.url;
 	    });
 
 	    map.on('mouseenter', 'places', function(e) {
 	        // Change the cursor style as a UI indicator.
 	        map.getCanvas().style.cursor = 'pointer';
-
+			
 	        var coordinates = e.features[0].geometry.coordinates.slice();
 	        var html = "<div class='map-popup'><h3 class='map-popup__title'>" + e.features[0].properties.title + "</h3>";
 			if( typeof e.features[0].properties.address !== "undefined" ) {
@@ -192,7 +199,8 @@ if( document.getElementById('map__container') !== null ) {
 // if( document.getElementById('comment__editor') !== null ) {
 
 	var editor = new Editor({
-		element: document.getElementById('comment__editor')
+		element: document.getElementById('comment__editor'),
+		status: false
 	});
 	editor.render();
 	

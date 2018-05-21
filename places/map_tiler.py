@@ -1,6 +1,7 @@
 from django.contrib.gis.geos import Polygon, Point
 import mercantile
 import mapbox_vector_tile
+from .models import Place
 
 SRID_LNGLAT = 4326
 SRID_SPHERICAL_MERCATOR = 3857  
@@ -26,9 +27,16 @@ def point_in_tile(tile_bounds, point):
 # encode places to mpt with the given properties
 def encode(places, tile_bounds):
     features = []
+    buildings = []
     for place in places:
+        # only add each building to the map once
+        if place.building:
+            if place.building not in buildings:
+                buildings.append(place.building)
+            else:
+                continue
+            
         feature_point = point_in_tile(tile_bounds, place.location)
-        feature_properties = {}
         features.append({
             "geometry": feature_point.wkt,
             "properties": place.map_properties()
@@ -40,11 +48,11 @@ def encode(places, tile_bounds):
     }, round_fn=round)
     
 # return results for a given tile query
-def encode_objects_for_tile(object, xyz):
+def encode_objects_for_tile(xyz):
     tile_bounds = Polygon.from_bbox(mercantile.bounds(*xyz))
     tile_bounds.srid = SRID_LNGLAT
     tile_bounds.transform(SRID_SPHERICAL_MERCATOR)
     
-    objects = object.objects.filter(location__intersects=tile_bounds).all()[:20]
+    objects = Place.objects.filter(location__intersects=tile_bounds).select_related('building').all()[:20]
     
     return encode(objects, tile_bounds)

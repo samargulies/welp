@@ -96,11 +96,19 @@
                 <div class="map">
                     <div id="map__container" class="map__container" 
                         data-place-id={{ place.id }}
+                        data-building-id={{ place.building.id }}
                         data-zoom=14
                         data-lat={{ place.location.x }}
                         data-lng={{ place.location.y }}></div>
                 </div>
             </div>
+            
+            {% if place.aliases %} 
+            <div class="place-detail__meta">
+                <h3 class="place-detail__meta__title">Also Known As</h3>
+                <div class="place-detail__meta__description">{{ place.aliases|safe_markdown }}</div>
+            </div>
+            {% endif %}
             
             {% if place.previous_addresses %} 
             <div class="place-detail__meta">
@@ -110,6 +118,20 @@
                     <li>{{ address.address }}</li>  
                 {% endfor %}
                 </ul>  
+            </div>
+            {% endif %}
+            
+            {% if place.other_building_locations %} 
+            <div class="place-detail__meta place-detail__related-places">
+                <h3 class="place-detail__meta__title">
+                    <a href="{% url 'places:building' place.building.id %}">Also at {{ place.building }}</a>
+                </h3>
+                {% for related_place in place.other_building_locations %}
+                    <div class="related-place">
+                        <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
+                        <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
+                    </div>  
+                {% endfor %}  
             </div>
             {% endif %}
             
@@ -139,19 +161,7 @@
             </div>
             {% endif %}
             
-            {% if place.other_building_locations %} 
-            <div class="place-detail__meta place-detail__related-places">
-                <h3 class="place-detail__meta__title">
-                    <a href="{% url 'places:building' place.building.id %}">Also at {{ place.building }}</a>
-                </h3>
-                {% for related_place in place.other_building_locations %}
-                    <div class="related-place">
-                        <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
-                        <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
-                    </div>  
-                {% endfor %}  
-            </div>
-            {% endif %}
+
             
         </footer>
         

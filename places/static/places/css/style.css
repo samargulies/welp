@@ -292,7 +292,7 @@ img {
 
 .place-detail__sidebar {
     grid-column-start: 2;   
-    grid-row: 1 / 4;
+    grid-row: 2 / 4;
     padding: 1rem;
     margin-right: -1rem;
     background: var(--light-accent-color);

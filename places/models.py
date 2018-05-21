@@ -8,6 +8,7 @@ from sortedm2m.fields import SortedManyToManyField
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit, SmartResize
 from django_comments.moderation import CommentModerator, moderator
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=128)
@@ -131,6 +132,7 @@ class Building(models.Model):
 class Place(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField(blank=True)
+    aliases = models.TextField(blank=True)
     images = SortedManyToManyField(Image)
     location = models.PointField(null=True, blank=True)
     categories = models.ManyToManyField('PlaceCategory', blank=True)
@@ -139,11 +141,24 @@ class Place(models.Model):
     chain = models.ForeignKey('PlaceChain', null=True, blank=True, on_delete=models.CASCADE)
     building = models.ForeignKey('Building', null=True, blank=True, on_delete=models.CASCADE)
     
+    class Meta:
+       ordering = ['-updated']
+       
     def map_properties(self):
-        properties = {
-            "id": self.id,
-            "title": self.title,
-        }
+        # for buildings, link to the building for the name and url
+        # but still include the image and address from the place
+        if self.building:
+            properties = {
+                "building_id": self.building.id,
+                "url": reverse('places:building', args=[self.building.id]),
+                "title": self.building.title,
+            }
+        else:
+            properties = {
+                "url": reverse('places:detail', args=[self.id]),
+                "title": self.title,
+            }
+        properties["id"] = self.id
         if self.featured_image() and self.featured_image().safe_thumbnail():
             properties["image"] = self.featured_image().safe_thumbnail().url
         if self.current_address():
@@ -180,6 +195,7 @@ class Place(models.Model):
         
         return Place.objects.exclude(location__isnull=True)\
             .exclude(pk=self.pk)\
+            .exclude(building=self.building)\
             .filter(location__distance_lte=(self.location, D(km=5)))\
             .annotate(distance=Distance('location', self.location))\
             .order_by('distance')[:5]
