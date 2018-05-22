@@ -173,7 +173,7 @@ class Place(models.Model):
         return self.images.count() > 1
     
     def current_address(self):
-        return self.address_set.all().first()
+        return self.address_set.first()
     
     def previous_addresses(self):
         return self.address_set.all()[1:]
@@ -195,9 +195,10 @@ class Place(models.Model):
         
         query = Place.objects.exclude(location__isnull=True)\
             .exclude(pk=self.pk)\
+            .prefetch_related('address_set')\
             .filter(location__distance_lte=(self.location, D(km=5)))\
             .annotate(distance=Distance('location', self.location))\
-            .order_by('distance')        
+            .order_by('distance')
         if self.building:
             query = query.exclude(building=self.building)
         return query[:5]

@@ -14,14 +14,13 @@
             </div>
         </header>
         <div class="places__list">
-            {% if place_list %}
                 {% for place in place_list %}
                     <article class="place">
                         <a href="{% url 'places:detail' place.id %}">
                         <header>
                             <h2 class="place__title">{{ place.title }}</h2>
                             <div class="place__address">
-                                {{ place.current_address|default:"" }}
+                                {{ place.current_address.address|default:"" }}
                             </div>
                         </header>
                         {% if place.featured_image.image_thumbnail %}
@@ -34,6 +33,8 @@
                         {% endif %}
                         </a>
                     </article>
+                {% empty %}
+                    <p>No places found</p>
                 {% endfor %}
                 {% if is_paginated %}
                     <nav class="pagination">
@@ -47,10 +48,8 @@
                                 <a href="?page={{ page_obj.next_page_number }}">Next</a>
                             {% endif %}
                     </nav>
-                    {% endif %}
-            {% else %}
-                <p>No places found</p>
-            {% endif %}
+                {% endif %}
+
         </div>
     </div>
 {% endblock %}

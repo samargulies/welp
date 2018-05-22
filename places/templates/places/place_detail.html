@@ -121,12 +121,12 @@
             </div>
             {% endif %}
             
-            {% if place.other_building_locations %} 
+            {% if other_building_locations %} 
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">
                     <a href="{% url 'places:building' place.building.id %}">Also at {{ place.building }}</a>
                 </h3>
-                {% for related_place in place.other_building_locations %}
+                {% for related_place in other_building_locations %}
                     <div class="related-place">
                         <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
                         <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
@@ -135,24 +135,25 @@
             </div>
             {% endif %}
             
-            {% if place.nearby %} 
+            
+            {% if nearby %} 
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">Nearby</h3>
-                {% for related_place in place.nearby %}
+                {% for related_place in nearby %}
                     <div class="related-place">
                         <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
-                        <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
+                        <div class="related-place__address">{{ related_place.current_address.address }}</div>
                     </div>  
                 {% endfor %}  
             </div>
             {% endif %}
             
-            {% if place.other_chain_locations %} 
+            {% if other_chain_locations %} 
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">
                     <a href="{% url 'places:chain' place.chain.id %}">{{ place.chain }} Locations</a>
                 </h3>
-                {% for related_place in place.other_chain_locations %}
+                {% for related_place in other_chain_locations %}
                     <div class="related-place">
                         <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
                         <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>

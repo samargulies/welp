@@ -49,9 +49,11 @@ INSTALLED_APPS = [
     'mapwidgets',
     'django.contrib.sites',
     'django_comments',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -161,3 +163,5 @@ IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'welp.image_generators.FixJustInTime'
 # https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/#spatialite-macos
 if config.SPATIALITE_LIBRARY_PATH:
     SPATIALITE_LIBRARY_PATH = config.SPATIALITE_LIBRARY_PATH
+
+INTERNAL_IPS = '127.0.0.1'
