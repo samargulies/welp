@@ -24,4 +24,5 @@ DATABASES = {
     }
 }
 SITE_ID = 1
+DEBUG = True
 ALLOWED_HOSTS = ["*"]
