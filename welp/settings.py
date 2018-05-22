@@ -26,7 +26,7 @@ SECRET_KEY = 'cx2f^7#-vc&wfem=dg__t=oubggjndiz=j1!rkm7=zahc+1n04'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = config.ALLOWED_HOSTS
 
 
 # Application definition
