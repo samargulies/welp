@@ -26,9 +26,7 @@
                         {% if place.featured_image.image_thumbnail %}
                             <div class="place__thumbnail">
                                 <img src="{{ place.featured_image.image_thumbnail.url }}" 
-                                    alt="{{ place.featured_image.image.alt }}" 
-                                    height="{{place.featured_image.image_thumbnail.height}}" 
-                                    width="{{place.featured_image.image_thumbnail.width}}" />
+                                    alt="{{ place.featured_image.image.alt }}" />
                             </div>
                         {% endif %}
                         </a>

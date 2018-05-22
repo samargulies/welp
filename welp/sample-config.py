@@ -6,6 +6,10 @@ USE_S3 = True
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    'imagekit': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'TIMEOUT': None,
     }
 }
 MAP_WIDGETS = {

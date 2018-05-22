@@ -157,7 +157,8 @@ else:
 
 # Fix for S3 and ImageKit
 # https://github.com/matthewwithanm/django-imagekit/issues/391
-IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'welp.image_generators.FixJustInTime'
+IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
+IMAGEKIT_CACHE_BACKEND = 'imagekit'
 
 # GeoDjango configuration
 # https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/#spatialite-macos

@@ -38,8 +38,6 @@
                             <img class="place-detail__image" 
                                 data-flickity-lazyload-src="{{ image.safe_large.url }}"
                                 alt="{{ image.alt }}"
-                                width="{{ image.safe_large.width }}"
-                                height="{{ image.safe_large.height }}"
                                 />
                             <footer>
                                 <div class="place-detail__image__attribution">
@@ -54,11 +52,8 @@
                     {% for image in place.images.all %}
                         <figure class="place-detail__cell {{image.classes}}">
                             <img class="place-detail__image" 
-                                srcset="{{ image.safe_large.url }} {{image.safe_large.width}}w, {{ image.safe_medium.url }} {{image.safe_medium.width}}w"
                                 src="{{ image.safe_large.url }}"
                                 alt="{{ image.alt }}"
-                                width="{{ image.safe_large.width }}"
-                                height="{{ image.safe_large.height }}"
                                 />
                             <figcaption class="place-detail__image__title">
                                 {{ image.title }}
