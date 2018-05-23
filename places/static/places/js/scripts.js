@@ -157,7 +157,8 @@ if( document.getElementById('map__container') !== null ) {
 	    });
     
 	    map.on('click', 'places', function (e) {
-	        window.location = e.features[0].properties.url;
+	        window.location.href = e.features[0].properties.url;
+	        return false;
 	    });
 
 	    map.on('mouseenter', 'places', function(e) {
