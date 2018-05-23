@@ -10,7 +10,11 @@
 
 {% block head %}
 <meta property="og:title" content="{{ place.title }}">
-<meta property="og:description" content="">
+{% if place.description %}
+<meta property="og:description" content="place.description|safe_markdown|truncatechars_html:200">
+{% else %}
+<meta property="og:description" content="Collecting images from Philadelphia restaurant history">
+{% endif %}
 {% with place.images.all|first as image %}
 {% if image %}
 	<meta property="og:image" content="{{ image.safe_large.url }}">
