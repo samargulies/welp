@@ -141,8 +141,14 @@ class Place(models.Model):
     chain = models.ForeignKey('PlaceChain', null=True, blank=True, on_delete=models.CASCADE)
     building = models.ForeignKey('Building', null=True, blank=True, on_delete=models.CASCADE)
     
+    def __str__(self):
+        return self.title
+        
     class Meta:
        ordering = ['-updated']
+       
+    def get_absolute_url(self):
+     	return reverse('places:detail', args=[self.id])
      
     def map_properties(self):
         # for buildings, link to the building for the name and url
@@ -202,10 +208,6 @@ class Place(models.Model):
         if self.building:
             query = query.exclude(building=self.building)
         return query[:5]
-    
-    def __str__(self):
-        return self.title
-
         
 class PlaceModerator(CommentModerator):
     # email_notification = True

@@ -197,9 +197,11 @@ if( document.getElementById('map__container') !== null ) {
 	});
 }
 
+var simplemde;
+
 if( document.getElementById('add-comment__text-editor') !== null ) {
 	
-	var simplemde = new SimpleMDE({ 
+	simplemde = new SimpleMDE({ 
 		element: document.getElementById("add-comment__text-editor"),
 		toolbar: ["bold", "italic", "|", "link", "|", "unordered-list", "ordered-list", "|", "quote", "preview", "guide"],
 		status: false,
@@ -210,3 +212,24 @@ if( document.getElementById('add-comment__text-editor') !== null ) {
 	simplemde.codemirror.options.extraKeys['Shift-Tab'] = false;
 
 }
+
+function commentSubmit(e) {
+	console.log(e);
+	document.getElementById('add-comment__text-editor').value = simplemde.value();
+};
+
+var form = document.getElementById('add-comment__form');
+
+if( form !== null ) {
+	form.addEventListener('submit', commentSubmit);
+	document.querySelector('.add-comment__field__submit').addEventListener('click', commentSubmit);
+}
+
+function onloadRecaptcha() {
+	var recaptcha = document.getElementById('g-recaptcha-response');
+	if( recaptcha !== null ) {
+		recaptcha.setAttribute("required", "required");
+	}
+}
+
+

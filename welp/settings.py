@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_settings_export.settings_export',
             ],
         },
     },
@@ -166,3 +167,11 @@ if config.SPATIALITE_LIBRARY_PATH:
     SPATIALITE_LIBRARY_PATH = config.SPATIALITE_LIBRARY_PATH
 
 INTERNAL_IPS = '127.0.0.1'
+
+# ReCaptcha
+GOOGLE_RECAPTCHA_SECRET_KEY = config.GOOGLE_RECAPTCHA_SECRET_KEY
+GOOGLE_RECAPTCHA_SITE_KEY = config.GOOGLE_RECAPTCHA_SITE_KEY
+
+# Settings to export to template
+# https://github.com/jakubroztocil/django-settings-export
+SETTINGS_EXPORT = ['GOOGLE_RECAPTCHA_SITE_KEY']
