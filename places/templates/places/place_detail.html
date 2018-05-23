@@ -40,8 +40,8 @@
                                 alt="{{ image.alt }}"
                                 />
                              <figcaption class="place-detail__image__caption">
-                                <div class="place-detail__image__title">{{ image.title }}</div>
-								<div class="place-detail__image__description">{{ image.description }}</div>
+                                <h3 class="place-detail__image__title">{{ image.title }}</h3>
+								<div class="place-detail__image__description">{{ image.description|safe_markdown }}</div>
                             </figcaption>
                             <footer>
                                 <div class="place-detail__image__attribution">

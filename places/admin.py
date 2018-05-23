@@ -85,6 +85,11 @@ class ImageAdmin(nested_admin.NestedModelAdmin):
     inlines = [
         ImageCategoryInline
     ]
+    formfield_overrides = {
+        models.TextField: {'widget': AdminMartorWidget},
+        models.PointField: {"widget": GooglePointFieldWidget},
+    }
+
     admin_thumbnail = AdminThumbnail(image_field='image_medium')
     list_display = ('__str__', 'admin_thumbnail')
     readonly_fields = ('admin_thumbnail',)
