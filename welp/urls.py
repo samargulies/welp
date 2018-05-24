@@ -15,7 +15,7 @@ urlpatterns = [
     path('nested_admin/', include('nested_admin.urls')),
     path('martor/', include('martor.urls')),
     path('comments/', include('django_comments.urls')),
-    
+
 ]
 
 if settings.DEBUG:

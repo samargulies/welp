@@ -2,7 +2,6 @@
     --primary-color: hsl(14, 100%, 51%);
     --primary-color-rgb: 255, 63, 5;
     --accent-color: hsl(120, 22%, 86%);
-    --light-accent-color: hsl(120, 50%, 98%);
     --light-text-color: #888;
     --dark-text-color: #444;
     --link-color: #19f;
@@ -46,7 +45,8 @@ img {
 }
 
 .site-header {
-    background: var(--primary-color);
+    background-color: var(--primary-color);
+    background-image: linear-gradient(160deg, hsl(14, 100%, 51%) 0%, hsl(20, 100%, 51%) 100%);
     display: grid;
     grid-template-columns: minmax(auto, 2fr) minmax(auto, 1fr);
     grid-column-gap: 1rem;
@@ -74,7 +74,7 @@ img {
     display: flex;
     align-items: center;
     max-width: 440px;
-    margin: 1rem;
+    margin: 0 1rem;
 }
 
 .site-header__search input {
@@ -99,40 +99,39 @@ img {
 
 .content {
     padding: 0 1rem;
+    background: #fafafa;
 }
 
 .places__list  {
     display: grid;
     grid-gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(auto, 320px));
+    grid-template-columns: repeat(auto-fill, minmax(auto, 240px));
     justify-content: center;
     padding-bottom: 2rem;
 }
 
 .places__list .place {
-    background: rgba(var(--primary-color-rgb), 0.1);
+    background: white;
     padding: 1rem;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
+    box-shadow: 0 2px 4px 0px #e0e0e0a8;
+    border: 1px solid hsla(14, 20%, 91%, 1);
 }
 
+.places__list .place__title,
 .places__list .place__title {
-    font-size: 1.5rem;
+    font-size: 1rem;
     line-height: 1.2;
     font-weight: 500;
     margin: 0 0 0.5rem;
-    color: white;
+    color: var(--primary-color);
 }
 
 .places__list .place__address{
     margin: 0 0 0.5rem;
-    font-weight: 400;
-    color: #555;
-}
-
-.places__list .place .place__title,
-.places__list .place .place__title {
-    color: var(--primary-color);
+    color: #888;
+    font-size: 0.875rem;
 }
 
 .places__list .place:hover .place__title,
@@ -149,6 +148,15 @@ img {
 .places__list .place:hover,
 .places__list .place:focus {
     background: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.pagination {
+	grid-column: 1 / -1;
+}
+
+.pagination a {
+	color: var(--link-color);
 }
 
 .place-detail {
@@ -164,7 +172,7 @@ img {
 }
 
 .place-detail__title {
-    color: var(--primary-color);
+    color: var(--dark-text-color);
     font-size: 2.5rem;
     line-height: 1;
     font-weight: 500;
@@ -188,7 +196,7 @@ img {
     padding: 0 .5rem;
     border-radius: 12px;
     margin: 0 0.25rem;
-    color: white;   
+    color: white;
 }
 
 .place-detail__category.category-extant {
@@ -286,7 +294,7 @@ img {
 .place-detail__image__title {
 	font-size: 1rem;
 	color: var(--dark-text-color);
-	font-weight: 600;
+	font-weight: 500;
 	margin-bottom: 0;
 }
 .flickity-enabled .place-detail__image__title {
@@ -319,22 +327,21 @@ img {
     margin: 0 auto;
     max-width: 640px;
     width: 100%;
-    grid-column-start: 1;   
+    grid-column-start: 1;
 }
 
 .place-detail__comments {
     margin: 0 auto;
     max-width: 640px;
     width: 100%;
-    grid-column-start: 1;   
+    grid-column-start: 1;
 }
 
 .place-detail__sidebar {
-    grid-column-start: 2;   
+    grid-column-start: 2;
     grid-row: 2 / 4;
     padding: 1rem;
     margin-right: -1rem;
-    background: var(--light-accent-color);
 }
 
 .place-detail__images--extended ~ .place-detail__sidebar {
@@ -456,7 +463,7 @@ img {
     display: grid;
     grid-template-columns: auto auto auto;
     grid-column-gap: 1rem;
-    grid-template-areas: 
+    grid-template-areas:
         "editor editor editor"
         "captcha captcha captcha"
         "name email submit";
@@ -567,28 +574,28 @@ img {
 }
 
 @media (max-width: 550px) {
-    
+
     .site-header {
         grid-template-columns: auto auto;
     }
-    
+
     .site-header__logo svg {
         height: 40px;
     }
-    
+
     .site-header__search {
         margin: 0;
     }
-    
+
     .place-detail__title {
         font-size: 1.875rem;
     }
-    
+
     .place-detail > * {
         grid-column: 1 / 4;
         max-width: auto;
     }
-    
+
     .place-detail .place-detail__sidebar {
         background: transparent;
         margin-right: 0;
@@ -596,15 +603,19 @@ img {
         padding-right: 0;
         grid-row: 4;
     }
-    
+
+    .places__list  {
+		grid-template-columns: repeat(auto-fill, minmax(auto, 320px));
+	}
+
     .add-comment__form > * {
         grid-column: 1 / 4;
     }
-    
+
     .add-comment__input {
         padding: 0.5rem;
     }
-    
+
     .add-comment__field__submit {
         padding: 0.5rem 1rem;
     }

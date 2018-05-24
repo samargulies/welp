@@ -14,7 +14,7 @@ class ImageCategoryInline(nested_admin.NestedTabularInline):
     extra = 0
     verbose_name = 'Category'
     verbose_name_plural = 'Categories'
-   
+
 class ImagesInline(nested_admin.NestedTabularInline):
     model = Place.images.through
     sortable_field_name = 'sort_value'
@@ -30,7 +30,7 @@ class AddressesInline(nested_admin.NestedTabularInline):
     model = Address
     sortable_field_name = 'sort_value'
     extra = 0
-    
+
 class PlaceCategoryInline(nested_admin.NestedTabularInline):
     model = Place.categories.through
     extra = 0
@@ -39,47 +39,47 @@ class PlaceCategoryInline(nested_admin.NestedTabularInline):
 
 class PlaceChainAdmin(nested_admin.NestedModelAdmin):
     model = PlaceChain
-    
+
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
     }
 
 class BuildingAdmin(nested_admin.NestedModelAdmin):
     model = Building
-    
+
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
-    } 
-   
+    }
+
 class PlaceAdmin(nested_admin.NestedModelAdmin):
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
         models.PointField: {"widget": GooglePointFieldWidget},
     }
-    
+
     settings_overrides = {
         'DEFAULT_CENTER': (39.95, -75.16),
         'DEFAULT_ZOOM': 14,
-        'TILES': [('', 
+        'TILES': [('',
             'https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoic2FtYXJndWxpZXMiLCJhIjoiY2E3c2laTSJ9.v0zuT22Dw8b72E-TRFbFaQ',
         '')],
     }
-    
+
     inlines = [
         AddressesInline,
         ImagesInline,
         PlaceCategoryInline
     ]
     exclude = ('images','categories')
-    
+
     readonly_fields = ['link']
 
-    def link(self, obj):
-        if not obj.id:
+    def link(self, object):
+        if not object.id:
             return ""
-        url = reverse('places:detail', args=[obj.id])
+        url = object.get_absolute_url()
         return mark_safe(f"<a href='{url}'>View on site</a>")
-    
+
 
 class ImageAdmin(nested_admin.NestedModelAdmin):
     inlines = [
@@ -95,7 +95,7 @@ class ImageAdmin(nested_admin.NestedModelAdmin):
     readonly_fields = ('admin_thumbnail',)
     exclude = ('categories',)
 
-    
+
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Image, ImageAdmin)
 admin.site.register(ImageCategory)

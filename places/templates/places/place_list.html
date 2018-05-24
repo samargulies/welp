@@ -16,7 +16,7 @@
         <div class="places__list">
                 {% for place in place_list %}
                     <article class="place">
-                        <a href="{% url 'places:detail' place.id %}">
+                        <a href="{{ place.get_absolute_url }}">
                         <header>
                             <h2 class="place__title">{{ place.title }}</h2>
                             <div class="place__address">
@@ -25,7 +25,7 @@
                         </header>
                         {% if place.featured_image.image_thumbnail %}
                             <div class="place__thumbnail">
-                                <img src="{{ place.featured_image.image_thumbnail.url }}" 
+                                <img src="{{ place.featured_image.image_thumbnail.url }}"
                                     alt="{{ place.featured_image.image.alt }}" />
                             </div>
                         {% endif %}

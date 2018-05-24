@@ -11,7 +11,7 @@
 {% block head %}
 <meta property="og:title" content="{{ place.title }}">
 {% if place.description %}
-<meta property="og:description" content="place.description|safe_markdown|truncatechars_html:200">
+<meta property="og:description" content="{{ place.description|safe_markdown|truncatechars_html:200 }}">
 {% else %}
 <meta property="og:description" content="Collecting images from Philadelphia restaurant history">
 {% endif %}
@@ -28,7 +28,7 @@
 
 {% block content %}
     <article class="place-detail">
-        
+
         <header class="place-detail__header">
             <h2 class="place-detail__title">{{ place.title }}</h2>
             <div class="place-detail__address">{{ place.current_address|default:"" }}</div>
@@ -39,21 +39,21 @@
                     </div>
                 {% endfor %}
             </div>
-            
+
             {% if user.is_authenticated %}
             <div class="edit-links">
                 <a href="{% url 'admin:places_place_change' place.id %}">Edit</a>
             </div>
             {% endif %}
-            
+
         </header>
-        
+
         {% if place.images %}
-            {% if place.displays_images_extended %} 
+            {% if place.displays_images_extended %}
                 <div class="place-detail__images place-detail__images--extended">
                     {% for image in place.images.all %}
                         <figure class="place-detail__cell {{image.classes}}">
-                            <img class="place-detail__image" 
+                            <img class="place-detail__image"
                                 data-flickity-lazyload-src="{{ image.safe_large.url }}"
                                 alt="{{ image.alt }}"
                                 />
@@ -73,7 +73,7 @@
                 <div class="place-detail__images">
                     {% for image in place.images.all %}
                         <figure class="place-detail__cell {{image.classes}}">
-                            <img class="place-detail__image" 
+                            <img class="place-detail__image"
                                 src="{{ image.safe_large.url }}"
                                 alt="{{ image.alt }}"
                                 />
@@ -89,30 +89,30 @@
                         </figure>
                     {% endfor %}
                 </div>
-            {% endif %}       
+            {% endif %}
         {% endif %}
-            
+
         <div class="place-detail__description">
             {{ place.description|safe_markdown }}
         </div>
-        
-        {% if place.chain and place.chain.description %} 
+
+        {% if place.chain and place.chain.description %}
         <div class="place-detail__description place-detail__description--chain">
             <h2 class="place-detail__chain-title"><a href="{% url 'places:chain' place.chain.id %}">{{ place.chain.title }}</a></h2>
             {{ place.chain.description|safe_markdown }}
         </div>
         {% endif %}
-        
+
         <div class="place-detail__comments">
             {% render_comment_list for place %}
             {% render_comment_form for place %}
         </div>
-        
+
         <footer class="place-detail__sidebar">
-            
+
             <div class="place-detail__meta place-detail__location">
                 <div class="map">
-                    <div id="map__container" class="map__container" 
+                    <div id="map__container" class="map__container"
                         data-place-id={{ place.id }}
                         data-building-id={{ place.building.id }}
                         data-zoom=14
@@ -120,69 +120,69 @@
                         data-lng={{ place.location.y }}></div>
                 </div>
             </div>
-            
-            {% if place.aliases %} 
+
+            {% if place.aliases %}
             <div class="place-detail__meta">
                 <h3 class="place-detail__meta__title">Also Known As</h3>
                 <div class="place-detail__meta__description">{{ place.aliases|safe_markdown }}</div>
             </div>
             {% endif %}
-            
-            {% if place.previous_addresses %} 
+
+            {% if place.previous_addresses %}
             <div class="place-detail__meta">
                 <h3 class="place-detail__meta__title">Previous Addresses</h3>
                 <ul>
                 {% for address in place.previous_addresses %}
-                    <li>{{ address.address }}</li>  
+                    <li>{{ address.address }}</li>
                 {% endfor %}
-                </ul>  
+                </ul>
             </div>
             {% endif %}
-            
-            {% if other_building_locations %} 
+
+            {% if other_building_locations %}
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">
-                    <a href="{% url 'places:building' place.building.id %}">Also at {{ place.building }}</a>
+                    <a href="{{ place.building.get_absolute_url }}">Also at {{ place.building }}</a>
                 </h3>
                 {% for related_place in other_building_locations %}
                     <div class="related-place">
-                        <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
+                        <h4 class="related-place__title"><a href="{{ related_place.get_absolute_url }}">{{ related_place.title }}</a></h4>
                         <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
-                    </div>  
-                {% endfor %}  
+                    </div>
+                {% endfor %}
             </div>
             {% endif %}
-            
-            
-            {% if nearby %} 
+
+
+            {% if nearby %}
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">Nearby</h3>
                 {% for related_place in nearby %}
                     <div class="related-place">
-                        <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
+                        <h4 class="related-place__title"><a href="{{ related_place.get_absolute_url }}">{{ related_place.title }}</a></h4>
                         <div class="related-place__address">{{ related_place.current_address.address }}</div>
-                    </div>  
-                {% endfor %}  
+                    </div>
+                {% endfor %}
             </div>
             {% endif %}
-            
-            {% if other_chain_locations %} 
+
+            {% if other_chain_locations %}
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">
                     <a href="{% url 'places:chain' place.chain.id %}">{{ place.chain }} Locations</a>
                 </h3>
                 {% for related_place in other_chain_locations %}
                     <div class="related-place">
-                        <h4 class="related-place__title"><a href="{% url 'places:detail' related_place.id %}">{{ related_place.title }}</a></h4>
+                        <h4 class="related-place__title"><a href="{{ related_place.get_absolute_url }}">{{ related_place.title }}</a></h4>
                         <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
-                    </div>  
-                {% endfor %}  
+                    </div>
+                {% endfor %}
             </div>
             {% endif %}
-            
 
-            
+
+
         </footer>
-        
+
     </article>
 {% endblock %}

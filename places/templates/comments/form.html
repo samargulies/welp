@@ -3,7 +3,7 @@
 <div class="add-comment">
     <h2 class="add-comment__title">Add a comment</h2>
     <form id="add-comment__form" class="add-comment__form" action="{% comment_form_target %}" method="post">{% csrf_token %}
-        <input type="hidden" name="next" value="{% url 'places:detail' place.id %}"/>
+        <input type="hidden" name="next" value="{{ place.get_absolute_url }}"/>
         {% for field in form %}
             {% if field.is_hidden %}
                 {{ field }}
@@ -11,17 +11,17 @@
                 {% if field.errors %}{{ field.errors }}{% endif %}
             {% endif %}
         {% endfor %}
-        
+
         <input type="text" name="honeypot" class="add-comment__honeypot">
-        
+
         <div class="add-comment__text-editor">
             <textarea name="comment" id="add-comment__text-editor" class="add-comment__text_editor" id="id_comment" required=required></textarea>
         </div>
-        
+
         <div class="add-comment__captcha">
         		<div class="g-recaptcha" data-sitekey="{{ settings.GOOGLE_RECAPTCHA_SITE_KEY }}"></div>
 		</div>
-        
+
         <div class="add-comment__field add-comment__field--input">
             <label class="add-comment__label" for="id_name">Name</label>
             <input class="add-comment__input" placeholder="Name" type="text" name="name" maxlength="50" required=required id="id_name">
@@ -33,9 +33,9 @@
 
         <div class="add-comment__field add-comment__field--submit">
             <input type="submit" name="post" class="add-comment__field__submit" value="{% trans "Post" %}"/>
-<!-- 
-            <button class="add-comment__field__submit g-recaptcha" 
-            		data-sitekey="{{ settings.GOOGLE_RECAPTCHA_SITE_KEY }}" 
+<!--
+            <button class="add-comment__field__submit g-recaptcha"
+            		data-sitekey="{{ settings.GOOGLE_RECAPTCHA_SITE_KEY }}"
             		data-callback='onCommentSubmit'>Post</button>
  -->
         </div>
