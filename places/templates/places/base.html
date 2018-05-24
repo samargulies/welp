@@ -7,12 +7,16 @@
     <title>{% block title %}Welp{% endblock %}</title>
     <meta name="description" content="Collecting images from Philadelphia restaurant history">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'places/images/favicon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'places/images/favicon-32x32.png' %}">
+	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'places/images/favicon-16x16.png' %}">
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" type="text/css" href="{% static 'places/css/style.css' %}">
-    
     {% block head %}{% endblock %}
 </head>
 <body>
