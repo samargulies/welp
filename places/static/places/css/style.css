@@ -5,6 +5,7 @@
     --light-text-color: #888;
     --dark-text-color: #444;
     --link-color: #19f;
+    --button-shadow-color: #848484ad;
     --footer-color: #eee;
 }
 
@@ -75,13 +76,36 @@ img {
     align-items: center;
     max-width: 440px;
     margin: 0 1rem;
+    position: relative;
+}
+.site-header__search__icon {
+	position: absolute;
+    width: 0.875rem;
+    height: 1rem;
+    left: 0.375rem;
+}
+.site-header__search__icon svg {
+	fill: #aaa;
+}
+.site-header__search__input {
+    width: 100%;
+    padding: 0.25rem 0.5rem 0.25rem 1.625rem;
+    font-size: 0.875rem;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 1px 0px 2px #00000024;
+	background: #fafafa;
+	color: #444;
 }
 
-.site-header__search input {
-    width: 100%;
-    padding: 0.25rem 0.5rem;
-    font-size: 1rem;
-    border: none;
+.site-header__search__input:focus {
+	outline: none;
+	background: #fff;
+	box-shadow: 0px 0px 0px 2px #00000024;
+}
+
+.site-header__search__input::placeholder {
+  color: #999;
 }
 
 .page--full .page__header {
@@ -153,6 +177,7 @@ img {
 
 .pagination {
 	grid-column: 1 / -1;
+	text-align: right;
 }
 
 .pagination a {
@@ -495,6 +520,8 @@ img {
     font-size: 1rem;
     padding: 0.25rem 0.5rem;
     cursor: pointer;
+    box-shadow: 0 2px 0 0 var(--button-shadow-color);
+    border-radius: 6px;
 	/* Corrects inability to style clickable `input` types in iOS */
     -webkit-appearance: none;
 }
@@ -503,11 +530,14 @@ img {
 .add-comment__field__submit:active {
     background: rgba(var(--primary-color-rgb), 0.1);
     color: var(--primary-color);
+    box-shadow: 0 1px 0 0 var(--button-shadow-color);
 }
 
 .add-comment__field__submit:focus {
     background: rgba(var(--primary-color-rgb), 0.8);
     color: white;
+	box-shadow: inset 0px 1px 0 1px var(--button-shadow-color);
+	outline: none;
 }
 
 .add-comment__text-editor {

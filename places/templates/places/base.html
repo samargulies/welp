@@ -1,7 +1,7 @@
 {% load static %}
 {% load svg %}
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
 <head>
 	<meta charset="utf-8">
     <title>{% block title %}Welp{% endblock %}</title>
@@ -23,7 +23,9 @@
             <a href="{% url 'index' %}">{% svg 'logo' %}</a>
         </h1>
         <form class="site-header__search" action="{% url 'places:search' %}">
-            <input name="s" placeholder="Search Establishments" value="{{ search|default:"" }}" />
+			<div class="site-header__search__icon">{% svg 'search' %}</div>
+            <input class="site-header__search__input" name="s" aria-label="Search" placeholder="Search" value="{{ search|default:"" }}" />
+
         </form>
     </header>
     <div class="content">
