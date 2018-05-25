@@ -1,7 +1,7 @@
 if( document.querySelector('.place-detail__images--extended') !== null ) {
 	var flkty = new Flickity( '.place-detail__images--extended', {
-		pageDots: false, 
-		fullscreen: true, 
+		pageDots: false,
+		fullscreen: true,
 		initialIndex: 1,
 		imagesLoaded: true,
 		setGallerySize: false,
@@ -13,7 +13,7 @@ if( document.querySelector('.place-detail__images--extended') !== null ) {
 			    if ( !cellElement ) {
 			      return;
 			    }
-			
+
 			    flkty.select(cellIndex);
 				flkty.toggleFullscreen();
 				flkty.reposition()
@@ -44,7 +44,7 @@ if( document.getElementById('map__container') !== null ) {
 
 	var highlight_filter = ["==", "id", highlighted_place_id];
 	var highlight_remove_filter = ["!=", "id", highlighted_place_id];
-	
+
 	if( typeof map_settings.buildingId !== 'undefined' ) {
 		var highlighted_building_id = parseInt(map_settings.buildingId);
 		highlight_filter = ["==", "building_id", highlighted_building_id];
@@ -60,7 +60,7 @@ if( document.getElementById('map__container') !== null ) {
 
 
 	map.on('load', function() {
-	
+
 		map.addSource("places", {
 	        "type": "vector",
 	        "tiles": [document.location.origin + "/places/map/tiles/{z}/{x}/{y}/"],
@@ -76,7 +76,7 @@ if( document.getElementById('map__container') !== null ) {
 	            "circle-color": "hsl(14, 100%, 30%)",
 	            'circle-radius': {
 	                "stops": [[8, 2], [12, 6], [22, 12]]
-	            },            
+	            },
 	            "circle-opacity": 0.8
 	         },
 			"filter": highlight_remove_filter,
@@ -107,7 +107,7 @@ if( document.getElementById('map__container') !== null ) {
 			"filter": highlight_remove_filter,
 	        "source-layer": "places"
 	    });
-	
+
 		// highlighted place
 	    map.addLayer({
 	        "id": "places-highlighted",
@@ -117,7 +117,7 @@ if( document.getElementById('map__container') !== null ) {
 	            "circle-color": "hsl(14, 100%, 51%)",
 	            'circle-radius': {
 	                "stops": [[8, 7], [12, 11], [22, 17]]
-	            },            
+	            },
 	            "circle-opacity": 0.8
 	         },
 			"filter": highlight_filter,
@@ -148,14 +148,14 @@ if( document.getElementById('map__container') !== null ) {
 			"filter": highlight_filter,
 	        "source-layer": "places"
 	    });
-    
+
 
 	     // Create a popup, but don't add it to the map yet.
 	    var popup = new mapboxgl.Popup({
 	        closeButton: false,
 	        closeOnClick: false
 	    });
-    
+
 	    map.on('click', 'places', function (e) {
 	        window.location.href = e.features[0].properties.url;
 	        return false;
@@ -164,7 +164,7 @@ if( document.getElementById('map__container') !== null ) {
 	    map.on('mouseenter', 'places', function(e) {
 	        // Change the cursor style as a UI indicator.
 	        map.getCanvas().style.cursor = 'pointer';
-			
+
 	        var coordinates = e.features[0].geometry.coordinates.slice();
 	        var html = "<div class='map-popup'><h3 class='map-popup__title'>" + e.features[0].properties.title + "</h3>";
 			if( typeof e.features[0].properties.address !== "undefined" ) {
@@ -193,21 +193,21 @@ if( document.getElementById('map__container') !== null ) {
 	        map.getCanvas().style.cursor = '';
 	        popup.remove();
 	    });
-    
+
 	});
 }
 
 var simplemde;
 
 if( document.getElementById('add-comment__text-editor') !== null ) {
-	
-	simplemde = new SimpleMDE({ 
+
+	simplemde = new SimpleMDE({
 		element: document.getElementById("add-comment__text-editor"),
 		toolbar: ["bold", "italic", "|", "link", "|", "unordered-list", "ordered-list", "|", "quote", "preview", "guide"],
 		status: false,
 		spellChecker: false
 	});
-	
+
 	simplemde.codemirror.options.extraKeys['Tab'] = false;
 	simplemde.codemirror.options.extraKeys['Shift-Tab'] = false;
 

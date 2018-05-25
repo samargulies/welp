@@ -32,3 +32,33 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"]
 GOOGLE_RECAPTCHA_SECRET_KEY = '6LdRSRYUAAAAAOnk5yomm1dI9BmQkJWTg_wIlMJ_'
 GOOGLE_RECAPTCHA_SITE_KEY = '6LdRSRYUAAAAAOnk5yomm1dI9BmQkJWTg_wIlMJ_'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+        'file_log': {
+              'level':'DEBUG',
+              'class':'logging.handlers.RotatingFileHandler',
+              'filename': os.path.join(DJANGO_ROOT, 'welp.log'),
+              'maxBytes': 1024 * 1024 * 15, # 15MB
+              'backupCount': 10,
+          },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins', 'file_log'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}

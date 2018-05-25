@@ -175,3 +175,7 @@ GOOGLE_RECAPTCHA_SITE_KEY = config.GOOGLE_RECAPTCHA_SITE_KEY
 # Settings to export to template
 # https://github.com/jakubroztocil/django-settings-export
 SETTINGS_EXPORT = ['GOOGLE_RECAPTCHA_SITE_KEY']
+
+
+# Logging
+LOGGING = config.LOGGING

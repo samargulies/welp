@@ -145,7 +145,7 @@ img {
 
 .places__list .place__title,
 .places__list .place__title {
-    font-size: 1rem;
+    font-size: 1.25rem;
     line-height: 1.2;
     font-weight: 500;
     margin: 0 0 0.5rem;
@@ -155,7 +155,7 @@ img {
 .places__list .place__address{
     margin: 0 0 0.5rem;
     color: #888;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
 }
 
 .places__list .place:hover .place__title,
