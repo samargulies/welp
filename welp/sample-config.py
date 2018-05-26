@@ -1,3 +1,5 @@
+import os
+
 AWS_ACCESS_KEY_ID = 'abc'
 AWS_SECRET_ACCESS_KEY = 'abc'
 AWS_STORAGE_BUCKET_NAME = 'welp-app'
@@ -45,11 +47,11 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
         'file_log': {
               'level':'DEBUG',
               'class':'logging.handlers.RotatingFileHandler',
-              'filename': os.path.join(DJANGO_ROOT, 'welp.log'),
+              'filename': os.path.join(os.path.dirname(os.path.realpath(__file__)), 'welp.log'),
               'maxBytes': 1024 * 1024 * 15, # 15MB
               'backupCount': 10,
           },

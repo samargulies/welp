@@ -7,3 +7,4 @@ media
 dist
 /welp/config.py
 /data.json
+*.log
