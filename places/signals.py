@@ -1,3 +1,5 @@
+from django.db.models.signals import post_save
+from django.core.cache import cache
 from django_comments.signals import comment_will_be_posted
 from django.dispatch import receiver
 from welp import settings
@@ -5,6 +7,10 @@ from welp import settings
 import json
 import urllib
 
+@receiver(post_save)
+def clear_the_cache(**kwargs):
+    cache.clear()
+	
 @receiver(comment_will_be_posted)
 def verify_recaptcha(sender, **kwargs):
 	print(kwargs['request'])
