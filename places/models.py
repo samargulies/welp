@@ -5,11 +5,10 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
 from localflavor.us.models import USStateField, USZipCodeField
 from sortedm2m.fields import SortedManyToManyField
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFit, SmartResize
 from django_comments.moderation import CommentModerator, moderator
 from django.urls import reverse
 from autoslug import AutoSlugField
+from easy_thumbnails.fields import ThumbnailerImageField
 
 class Category(models.Model):
 	name = models.CharField(max_length=128)
@@ -37,20 +36,7 @@ class ImageCategory(Category):
 
 
 class Image(models.Model):
-	image = models.ImageField(upload_to='%Y/%m/%d')
-	image_thumbnail = ImageSpecField(source='image',
-		processors=[SmartResize(320, 320, upscale=True)],
-		format='JPEG',
-		options={'quality': 85})
-	image_medium = ImageSpecField(source='image',
-		processors=[ResizeToFit(700, 600, upscale=False)],
-		format='JPEG',
-		options={'quality': 90})
-	image_large = ImageSpecField(source='image',
-		processors=[ResizeToFit(1400, 1100, upscale=False)],
-		format='JPEG',
-		options={'quality': 90})
-
+	image = ThumbnailerImageField(upload_to='%Y/%m/%d')
 	title = models.CharField(max_length=256, blank=True)
 	description = models.TextField(blank=True)
 	alt = models.CharField(max_length=256, blank=True)

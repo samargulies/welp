@@ -2,10 +2,11 @@ from django.contrib.gis.db import models
 from django.contrib.gis import admin
 import nested_admin
 from martor.widgets import AdminMartorWidget
-from imagekit.admin import AdminThumbnail
 from mapwidgets.widgets import GooglePointFieldWidget
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+from easy_thumbnails.widgets import ImageClearableFileInput
+from easy_thumbnails.fields import ThumbnailerImageField
 
 from .models import Place, Image, PlaceCategory, ImageCategory, Address, PlaceChain, Building
 
@@ -21,6 +22,9 @@ class ImagesInline(nested_admin.NestedTabularInline):
     extra = 0
     verbose_name = 'Image'
     verbose_name_plural = 'Images'
+    formfield_overrides = {
+        ThumbnailerImageField: {'widget': ImageClearableFileInput},
+    }
     # inlines = [
     #     ImageCategoryInline
     # ]
@@ -87,12 +91,8 @@ class ImageAdmin(nested_admin.NestedModelAdmin):
     ]
     formfield_overrides = {
         models.TextField: {'widget': AdminMartorWidget},
-        models.PointField: {"widget": GooglePointFieldWidget},
     }
 
-    admin_thumbnail = AdminThumbnail(image_field='image_medium')
-    list_display = ('__str__', 'admin_thumbnail')
-    readonly_fields = ('admin_thumbnail',)
     exclude = ('categories',)
 
 

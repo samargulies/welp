@@ -23,12 +23,15 @@
                                 {{ place.current_address.address|default:"" }}
                             </div>
                         </header>
-                        {% if place.featured_image.image_thumbnail %}
+                        {% load thumbnail %}
+                        {% with image=place.featured_image.image|thumbnail_url:'thumbnail' %}
+                        {% if image %}
                             <div class="place__thumbnail">
-                                <img src="{{ place.featured_image.image_thumbnail.url }}"
-                                    alt="{{ place.featured_image.image.alt }}" />
+                                <img src="{{ image }}"
+                                    alt="{{ place.featured_image.alt }}" />
                             </div>
                         {% endif %}
+                        {% endwith %}
                         </a>
                     </article>
                 {% empty %}

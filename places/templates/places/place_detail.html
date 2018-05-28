@@ -3,27 +3,31 @@
 {% load static %}
 {% load martortags %}
 {% load comments %}
+{% load thumbnail %}
 
 {% block title %}
   {{ place.title }} - Welp
 {% endblock %}
 
 {% block head %}
-<meta property="og:title" content="{{ place.title }}">
-{% if place.description %}
-<meta property="og:description" content="{{ place.description|safe_markdown|truncatechars_html:200 }}">
-{% else %}
-<meta property="og:description" content="Collecting images from Philadelphia restaurant history">
-{% endif %}
-{% with place.images.all|first as image %}
-{% if image %}
-	<meta property="og:image" content="{{ image.safe_large.url }}">
-	<meta name="twitter:image:alt" content="{{ image.alt }}">
-{% endif %}
-{% endwith %}
-<meta property="og:url" content="https://{{ request.get_host }}{{ place.get_absolute_url }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta property="og:site_name" content="Welp">
+    <meta property="og:title" content="{{ place.title }}">
+
+    {% if place.description %}
+        <meta property="og:description" content="{{ place.description|safe_markdown|truncatechars_html:200 }}">
+    {% else %}
+        <meta property="og:description" content="Collecting images from Philadelphia restaurant history">
+    {% endif %}
+
+    {% with image=place.featured_image.image|thumbnail_url:'large' %}
+    {% if image %}
+    	<meta property="og:image" content="{{ image.url }}">
+    	<meta name="twitter:image:alt" content="{{ place.featured_image.alt }}">
+    {% endif %}
+    {% endwith %}
+
+    <meta property="og:url" content="https://{{ request.get_host }}{{ place.get_absolute_url }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:site_name" content="Welp">
 {% endblock %}
 
 {% block content %}
@@ -49,48 +53,33 @@
         </header>
 
         {% if place.images %}
-            {% if place.displays_images_extended %}
-                <div class="place-detail__images place-detail__images--extended">
-                    {% for image in place.images.all %}
-                        <figure class="place-detail__cell {{image.classes}}">
-                            <img class="place-detail__image"
-                                data-flickity-lazyload-src="{{ image.safe_large.url }}"
-                                alt="{{ image.alt }}"
-                                />
-                             <figcaption class="place-detail__image__caption">
-                                <h3 class="place-detail__image__title">{{ image.title }}</h3>
-								<div class="place-detail__image__description">{{ image.description|safe_markdown }}</div>
-                            </figcaption>
-                            <footer>
-                                <div class="place-detail__image__attribution">
-                                  {{ image.attribution }}
-                                </div>
-                            </header>
-                        </figure>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="place-detail__images">
-                    {% for image in place.images.all %}
-                        <figure class="place-detail__cell {{image.classes}}">
-                            <img class="place-detail__image"
-                                src="{{ image.safe_large.url }}"
-                                alt="{{ image.alt }}"
-                                />
-                             <figcaption class="place-detail__image__caption">
-                                <h3 class="place-detail__image__title">{{ image.title }}</h3>
-								<div class="place-detail__image__description">{{ image.description }}</div>
-                            </figcaption>
-                            <footer class="place-detail__image__footer">
-                                <div class="place-detail__image__attribution">
-                                  {{ image.attribution }}
-                                </div>
-                            </header>
-                        </figure>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endif %}
+        {% with extended=place.displays_images_extended %}
+            <div class="place-detail__images {% if extended %}place-detail__images--extended{% endif %}">
+                {% for image in place.images.all %}
+                {% with thumbnail=image.image|thumbnailer %}
+                {% if thumbnail %}
+                    <figure class="place-detail__cell {{image.classes}}">
+                        <img class="place-detail__image"
+                            {{ extended|yesno:"data-flickity-lazyload-," }}srcset="{{ thumbnail.medium.url }} {{ thumbnail.medium.width }}w, {{ thumbnail.large.url }} {{ thumbnail.large.width }}w"
+                            {{ extended|yesno:"data-flickity-lazyload-," }}src="{{ thumbnail.large.url }}"
+                            alt="{{ image.alt }}"
+                            />
+                         <figcaption class="place-detail__image__caption">
+                            <h3 class="place-detail__image__title">{{ image.title }}</h3>
+                            <div class="place-detail__image__description">{{ image.description }}</div>
+                        </figcaption>
+                        <footer class="place-detail__image__footer">
+                            <div class="place-detail__image__attribution">
+                              {{ image.attribution }}
+                            </div>
+                        </header>
+                    </figure>
+                {% endif %}
+                {% endwith %}
+                {% endfor %}
+            </div>
+        {% endwith %}
+        {% endif%}
 
         <div class="place-detail__description">
             {{ place.description|safe_markdown }}
@@ -110,6 +99,7 @@
 
         <footer class="place-detail__sidebar">
 
+            {% if place.location %}
             <div class="place-detail__meta place-detail__location">
                 <div class="map">
                     <div id="map__container" class="map__container"
@@ -120,6 +110,7 @@
                         data-lng={{ place.location.y }}></div>
                 </div>
             </div>
+            {% endif %}
 
             {% if place.aliases %}
             <div class="place-detail__meta">

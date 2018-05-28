@@ -28,7 +28,6 @@ DEBUG = config.DEBUG
 
 ALLOWED_HOSTS = config.ALLOWED_HOSTS
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'easy_thumbnails',
     'places',
     'svg',
     'nested_admin',
     'martor',
     'localflavor',
-    'imagekit',
     'storages',
     'mapwidgets',
     'django.contrib.sites',
@@ -151,15 +150,11 @@ if config.USE_S3:
 
     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     DEFAULT_FILE_STORAGE = 'welp.custom_storages.MediaStorage'
+    THUMBNAIL_DEFAULT_STORAGE = 'welp.custom_storages.MediaStorage'
         
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'dist/static')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Fix for S3 and ImageKit
-# https://github.com/matthewwithanm/django-imagekit/issues/391
-IMAGEKIT_DEFAULT_CACHEFILE_STRATEGY = 'imagekit.cachefiles.strategies.Optimistic'
-IMAGEKIT_CACHE_BACKEND = 'imagekit'
 
 # GeoDjango configuration
 # https://docs.djangoproject.com/en/2.0/ref/contrib/gis/install/spatialite/#spatialite-macos
@@ -176,6 +171,29 @@ GOOGLE_RECAPTCHA_SITE_KEY = config.GOOGLE_RECAPTCHA_SITE_KEY
 # https://github.com/jakubroztocil/django-settings-export
 SETTINGS_EXPORT = ['GOOGLE_RECAPTCHA_SITE_KEY']
 
+THUMBNAIL_ALIASES = {
+    'places.Image.image': {
+        'thumbnail': {
+            'size': (320, 320),
+            'quality': 85,
+            'autocrop': True,
+            'crop': 'smart',
+        },
+        'medium': {
+            'size': (700, 600),
+            'quality': 85,
+            'autocrop': True,
+        },
+        'large': {
+            'size': (1400, 1100),
+            'quality': 85,
+            'autocrop': True,
+        },
+    },
+}
+THUMBNAIL_BASEDIR = 'thumbnails'
+THUMBNAIL_CACHE_DIMENSIONS = True
+THUMBNAIL_DEBUG = config.DEBUG
 
 # Logging
 LOGGING = config.LOGGING
