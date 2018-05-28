@@ -317,10 +317,11 @@ img {
 }
 .place-detail__image__caption {
 	margin-top: 0.25rem;
-    max-width: 640px;
+    max-width: min-content;
 }
 .is-fullscreen .place-detail__image__caption {
 	margin-top: 0.5rem;
+    max-width: 640px;
 }
 .place-detail__image__title {
 	font-size: 1rem;
