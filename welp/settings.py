@@ -173,6 +173,12 @@ SETTINGS_EXPORT = ['GOOGLE_RECAPTCHA_SITE_KEY']
 
 THUMBNAIL_ALIASES = {
     'places.Image.image': {
+        'map_thumbnail': {
+            'size': (48, 48),
+            'quality': 85,
+            'autocrop': True,
+            'crop': 'smart',
+        },
         'thumbnail': {
             'size': (320, 320),
             'quality': 85,

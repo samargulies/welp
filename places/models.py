@@ -9,6 +9,7 @@ from django_comments.moderation import CommentModerator, moderator
 from django.urls import reverse
 from autoslug import AutoSlugField
 from easy_thumbnails.fields import ThumbnailerImageField
+from easy_thumbnails.templatetags.thumbnail import thumbnail_url
 
 class Category(models.Model):
 	name = models.CharField(max_length=128)
@@ -44,27 +45,6 @@ class Image(models.Model):
 	categories = models.ManyToManyField('ImageCategory', blank=True)
 	created = models.DateTimeField(auto_now_add=True)
 	updated = models.DateTimeField(auto_now=True)
-
-	def safe_thumbnail(self):
-		try:
-			if self.image_thumbnail.width:
-				return self.image_thumbnail
-		except:
-			return
-
-	def safe_medium(self):
-		try:
-			if self.image_medium.width:
-				return self.image_medium
-		except:
-			return
-
-	def safe_large(self):
-		try:
-			if self.image_large.width:
-				return self.image_large
-		except:
-			return
 
 	# generate html classes based on the image and its categories
 	def classes(self):
@@ -156,11 +136,11 @@ class Place(models.Model):
 				"title": self.title,
 			}
 		properties["id"] = self.id
-		if self.featured_image() and self.featured_image().safe_thumbnail():
-			properties["image"] = self.featured_image().safe_thumbnail().url
+		image = self.featured_image()
+		if image:
+			properties["image"] = thumbnail_url(image.image, 'map_thumbnail')
 		if self.current_address():
 			properties["address"] = self.current_address().address
-
 		return properties
 
 	def featured_image(self):
@@ -189,7 +169,6 @@ class Place(models.Model):
 	def nearby(self):
 		if not self.location:
 			return
-
 		query = Place.objects.exclude(location__isnull=True)\
 			.exclude(pk=self.pk)\
 			.prefetch_related('address_set')\

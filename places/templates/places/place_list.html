@@ -24,13 +24,11 @@
                             </div>
                         </header>
                         {% load thumbnail %}
-                        {% with image=place.featured_image.image|thumbnail_url:'thumbnail' %}
-                        {% if image %}
+                        {% with thumbnail=place.featured_image.image|thumbnailer %}
                             <div class="place__thumbnail">
-                                <img src="{{ image }}"
+                                <img src="{{ thumbnail.thumbnail.url }}"
                                     alt="{{ place.featured_image.alt }}" />
                             </div>
-                        {% endif %}
                         {% endwith %}
                         </a>
                     </article>

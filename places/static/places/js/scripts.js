@@ -33,10 +33,11 @@ if( document.getElementById('map__container') !== null ) {
 	var map_settings = document.getElementById('map__container').dataset;
 
 	if(map_settings !== null) {
-			if( typeof map_settings.zoom !== 'undefined' ) {
+			if( typeof map_settings.zoom !== 'undefined' && map_settings.zoom !== '' ) {
 			zoom = map_settings.zoom;
 		}
-		if( typeof map_settings.lat !== 'undefined' && typeof map_settings.lng !== 'undefined' ) {
+		if( typeof map_settings.lat !== 'undefined' && typeof map_settings.lng !== 'undefined'
+		 	&& map_settings.lat !== '' && map_settings.lng !== '' ) {
 			center = [map_settings.lat, map_settings.lng];
 		}
 	}
@@ -45,12 +46,14 @@ if( document.getElementById('map__container') !== null ) {
 	var highlight_filter = ["==", "id", highlighted_place_id];
 	var highlight_remove_filter = ["!=", "id", highlighted_place_id];
 
-	if( typeof map_settings.buildingId !== 'undefined' ) {
+	if( typeof map_settings.buildingId !== 'undefined' && map_settings.buildingId !== '' ) {
 		var highlighted_building_id = parseInt(map_settings.buildingId);
 		highlight_filter = ["==", "building_id", highlighted_building_id];
 		highlight_remove_filter = ["!=", "building_id", highlighted_building_id];
 	}
-
+	
+	console.log(highlight_filter);
+	
 	var map = new mapboxgl.Map({
 	    container: 'map__container',
 	    style: 'mapbox://styles/mapbox/light-v9',
