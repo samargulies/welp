@@ -275,13 +275,15 @@ img {
     grid-template-rows: 1fr auto;
     grid-template-columns: max-content;
     align-content: center;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    justify-items: center;
     height: 100%;
 }
 
 .flickity-enabled.is-fullscreen {
     z-index: 100;
+    
 }
 
 .flickity-enabled .place-detail__image {
@@ -315,6 +317,10 @@ img {
 }
 .place-detail__image__caption {
 	margin-top: 0.25rem;
+    max-width: 640px;
+}
+.is-fullscreen .place-detail__image__caption {
+	margin-top: 0.5rem;
 }
 .place-detail__image__title {
 	font-size: 1rem;
