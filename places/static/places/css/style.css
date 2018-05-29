@@ -129,7 +129,8 @@ img {
 .places__list  {
     display: grid;
     grid-gap: 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(auto, 240px));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-auto-flow: dense;
     justify-content: center;
     padding-bottom: 2rem;
 }
@@ -316,6 +317,9 @@ img {
     width: 100%;
 }
 .place-detail__image__caption {
+	margin-top: 0.5rem;
+}
+.flickity-enabled .place-detail__image__caption {
 	margin-top: 0.25rem;
     max-width: min-content;
 }
@@ -371,7 +375,7 @@ img {
 
 .place-detail__sidebar {
     grid-column-start: 2;
-    grid-row: 2 / 4;
+    grid-row: 2 / 5;
     padding: 1rem;
     margin-right: -1rem;
 }

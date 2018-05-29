@@ -2,7 +2,6 @@ if( document.querySelector('.place-detail__images--extended') !== null ) {
 	var flkty = new Flickity( '.place-detail__images--extended', {
 		pageDots: false,
 		fullscreen: true,
-		initialIndex: 1,
 		imagesLoaded: true,
 		setGallerySize: false,
 		percentPosition: true,
