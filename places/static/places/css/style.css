@@ -388,6 +388,13 @@ img {
     height: 240px;
 }
 
+.map__link {
+    text-align: right;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    color: var(--primary-color);
+}
+
 .place-detail__meta {
     margin: 0 0 2rem;
     max-width: 440px;

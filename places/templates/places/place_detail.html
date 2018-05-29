@@ -109,6 +109,9 @@
                         data-lat="{{ place.location.x }}"
                         data-lng="{{ place.location.y }}"></div>
                 </div>
+                <div class="map__link">
+                    <a href="{% url 'places:map' %}">View map</a>
+                </div>
             </div>
             {% endif %}
 
