@@ -165,14 +165,14 @@ class Place(models.Model):
 			return
 		return self.building.place_set.exclude(pk=self.pk).all()[:5]
 
-	# return 5 nearest places within 5km
+	# return 5 nearest places within 2km
 	def nearby(self):
 		if not self.location:
 			return
 		query = Place.objects.exclude(location__isnull=True)\
 			.exclude(pk=self.pk)\
 			.prefetch_related('address_set')\
-			.filter(location__distance_lte=(self.location, D(km=5)))\
+			.filter(location__distance_lte=(self.location, D(km=2)))\
 			.annotate(distance=Distance('location', self.location))\
 			.order_by('distance')
 		if self.building:
