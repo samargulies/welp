@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="places-page page page--full">
+    <div class="places-list content--full">
         <header class="page__header">
             <div class="page__header__content">
                 <h1 class="page__title">{{ title|default:"" }}</h1>
@@ -23,13 +23,15 @@
                                 {{ place.current_address.address|default:"" }}
                             </div>
                         </header>
-                        {% load thumbnail %}
-                        {% with thumbnail=place.featured_image.image|thumbnailer %}
-                            <div class="place__thumbnail">
-                                <img src="{{ thumbnail.thumbnail.url }}"
-                                    alt="{{ place.featured_image.alt }}" />
-                            </div>
-                        {% endwith %}
+		                {% if place.featured_image.image %}
+		                {% load thumbnail %}
+		                {% with thumbnail=place.featured_image.image|thumbnailer %}
+		                    <div class="place__thumbnail">
+		                        <img src="{{ thumbnail.thumbnail.url }}"
+		                            alt="{{ place.featured_image.alt }}" />
+		                    </div>
+		                {% endwith %}
+		                {% endif %}
                         </a>
                     </article>
                 {% empty %}

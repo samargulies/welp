@@ -6,6 +6,7 @@ PAGE_CACHE_DURATION = 15 * 60
 
 app_name = 'places'
 urlpatterns = [
+    path('', cache_page(PAGE_CACHE_DURATION)(views.PlaceIndexView.as_view()), name='index'),
     path('search/', views.SearchView.as_view(), name='search'),
     path('chains/<int:pk>/', cache_page(PAGE_CACHE_DURATION)(views.ChainView.as_view()), name='chain'),
     path('building/<int:pk>/', cache_page(PAGE_CACHE_DURATION)(views.BuildingView.as_view()), name='building'),

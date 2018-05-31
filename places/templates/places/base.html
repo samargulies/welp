@@ -1,5 +1,6 @@
 {% load static %}
 {% load svg %}
+{% load place_extras %}
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
@@ -11,13 +12,10 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="{% static 'places/images/favicon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'places/images/favicon-32x32.png' %}">
 	<link rel="icon" type="image/png" sizes="16x16" href="{% static 'places/images/favicon-16x16.png' %}">
-
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
-    <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
     <link rel="stylesheet" type="text/css" href="{% static 'places/css/style.css' %}">
     {% block head %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}page-{{ request.path|class_name }}{% endblock %}">
     <header class="site-header">
         <h1 class="site-header__logo">
             <a href="{% url 'index' %}">{% svg 'logo' %}</a>
@@ -42,6 +40,8 @@
         </div>
     </footer>
 	<link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css" />
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/flickity-fullscreen@1/fullscreen.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
     <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>

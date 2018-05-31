@@ -10,6 +10,14 @@ PAGINATE_BY = 20
 
 class IndexView(generic.ListView):
     model = Place
+    template_name = 'places/index.html'
+    paginate_by = PAGINATE_BY
+
+    def get_queryset(self):
+        return Place.objects.prefetch_related('images', 'address_set')
+
+class PlaceIndexView(generic.ListView):
+    model = Place
     template_name = 'places/place_list.html'
     paginate_by = PAGINATE_BY
 

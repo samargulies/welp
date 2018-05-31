@@ -1,5 +1,6 @@
 if( document.querySelector('.place-detail__images--extended') !== null ) {
 	var flkty = new Flickity( '.place-detail__images--extended', {
+		cellAlign: "left",
 		pageDots: false,
 		fullscreen: true,
 		imagesLoaded: true,
