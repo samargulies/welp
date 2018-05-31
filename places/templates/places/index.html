@@ -23,7 +23,7 @@
             </div>
         </header>
 		
-        <div class="places__list places__list--slideshow" data-flickity='{ "cellAlign": "left", "pageDots": false, "lazyLoad": 2, "freeScroll": true}'>
+        <div class="places__list places__list--slideshow" data-flickity='{ "cellAlign": "left", "pageDots": false, "lazyLoad": 5, "freeScroll": true}'>
             {% for place in place_list %}
                 <article class="place">
                     <a href="{{ place.get_absolute_url }}">
@@ -37,7 +37,7 @@
 	                {% load thumbnail %}
 	                {% with thumbnail=place.featured_image.image|thumbnailer %}
 	                    <div class="place__thumbnail">
-	                        <img data-flickity-src="{{ thumbnail.thumbnail.url }}"
+	                        <img data-flickity-lazyload="{{ thumbnail.thumbnail.url }}"
 	                            alt="{{ place.featured_image.alt }}" />
 	                    </div>
 	                {% endwith %}
