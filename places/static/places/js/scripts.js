@@ -55,9 +55,7 @@ if( document.getElementById('map__container') !== null ) {
 		highlight_filter = ["==", "building_id", highlighted_building_id];
 		highlight_remove_filter = ["!=", "building_id", highlighted_building_id];
 	}
-	
-	console.log(highlight_filter);
-	
+		
 	var map = new mapboxgl.Map({
 	    container: 'map__container',
 	    style: 'mapbox://styles/mapbox/light-v9',

@@ -203,7 +203,6 @@ img {
 }
 
 .js .home__header {
-    background-color: rgba(var(--primary-color-rgb), 0.4);
     background-image: url('../images/home-top-background.jpg');
 }
 
