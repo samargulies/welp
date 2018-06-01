@@ -55,11 +55,38 @@ img {
     padding: 0 1rem;
 }
 
-.site-header__logo {
-    transition: .3s ease opacity;
+.site-header__mast {
     margin: 0 auto;
     max-width: 640px;
     width: 100%;
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 5vw;
+}
+
+.site-header__nav {
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: 600;
+}
+
+.site-header__nav ul,
+.site-header__nav li {
+    list-style: none;
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+.site-header__nav a:hover,
+.site-header__nav a:focus {
+    opacity: .75;
+}
+
+.site-header__logo {
+    margin: 0;
+    transition: .3s ease opacity;
 }
 
 .site-header__logo svg {
@@ -115,6 +142,12 @@ img {
     padding-bottom: 2rem;
 }
 
+.content--full .page__title {
+    margin: 1.5rem auto 0;
+    max-width: 640px;
+    width: 100%;
+}
+
 .content--full .page__header__content {
     margin: 1.5rem auto 0;
     max-width: 640px;
@@ -133,6 +166,7 @@ img {
     grid-auto-flow: dense;
     justify-content: center;
     padding-bottom: 2rem;
+    margin: 0 auto;
 }
 
 .places__list .place {
@@ -440,9 +474,8 @@ img {
     height: 100%;
 }
 
-.flickity-enabled.is-fullscreen {
+.content .flickity-enabled.is-fullscreen {
     z-index: 100;
-    
 }
 
 .flickity-enabled .place-detail__image {
@@ -580,7 +613,7 @@ img {
     color: var(--light-text-color);
 }
 
-.page-map .map__container {
+.page-places-map .map__container {
     height: 60vh;
     margin-bottom: 2rem;
 }
@@ -784,6 +817,10 @@ img {
     .site-header {
         grid-template-columns: auto auto;
     }
+    
+    .site-header__nav {
+        display: none;
+    }
 
     .site-header__logo svg {
         height: 40px;
@@ -817,6 +854,10 @@ img {
     .places__list  {
 		grid-template-columns: repeat(auto-fill, minmax(auto, 320px));
 	}
+    
+    .content--full .page__header {
+        grid-template-columns: auto;
+    }
 
     .add-comment__form > * {
         grid-column: 1 / 4;
@@ -828,5 +869,11 @@ img {
 
     .add-comment__field__submit {
         padding: 0.5rem 1rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .places__list  {
+        max-width: 90%;
     }
 }

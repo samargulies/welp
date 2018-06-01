@@ -17,9 +17,16 @@
 </head>
 <body class="{% block body_class %}page-{{ request.path|class_name }}{% endblock %}">
     <header class="site-header">
-        <h1 class="site-header__logo">
-            <a href="{% url 'index' %}">{% svg 'logo' %}</a>
-        </h1>
+        <div class="site-header__mast">
+            <h1 class="site-header__logo">
+                <a href="{% url 'index' %}">{% svg 'logo' %}</a>
+            </h1>
+            <nav class="site-header__nav">
+                <ul>
+                    <li><a href="{% url 'places:map' %}">Map</a></li>
+                </ul>
+            </nav>
+        </div>
         <form class="site-header__search" action="{% url 'places:search' %}">
 			<div class="site-header__search__icon">{% svg 'search' %}</div>
             <input class="site-header__search__input" name="s" aria-label="Search" placeholder="Search" value="{{ search|default:"" }}" />
