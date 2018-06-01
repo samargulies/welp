@@ -20,7 +20,7 @@
                         <header>
                             <h2 class="place__title">{{ place.title }}</h2>
                             <div class="place__address">
-                                {{ place.current_address.address|default:"" }}
+                                {{ place.building_or_address }}
                             </div>
                         </header>
 		                {% if place.featured_image.image %}

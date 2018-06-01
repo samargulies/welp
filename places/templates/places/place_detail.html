@@ -34,6 +34,9 @@
     <article class="place-detail">
 
         <header class="place-detail__header">
+            <h3 class="place-detail__building">                    
+                <a href="{{ place.building.get_absolute_url }}">{{ place.building.title }}</a>
+            </h3>
             <h2 class="place-detail__title">{{ place.title }}</h2>
             <div class="place-detail__address">{{ place.current_address|default:"" }}</div>
             <div class="place-detail__categories">
@@ -136,7 +139,7 @@
             {% if other_building_locations %}
             <div class="place-detail__meta place-detail__related-places">
                 <h3 class="place-detail__meta__title">
-                    <a href="{{ place.building.get_absolute_url }}">Also at {{ place.building }}</a>
+                    <a href="{{ place.building.get_absolute_url }}">Also at {{ place.building.title }}</a>
                 </h3>
                 {% for related_place in other_building_locations %}
                     <div class="related-place">
@@ -154,7 +157,7 @@
                 {% for related_place in nearby %}
                     <div class="related-place">
                         <h4 class="related-place__title"><a href="{{ related_place.get_absolute_url }}">{{ related_place.title }}</a></h4>
-                        <div class="related-place__address">{{ related_place.current_address.address }}</div>
+                        <div class="related-place__address">{{ related_place.building_or_address }}</div>
                     </div>
                 {% endfor %}
             </div>
@@ -168,7 +171,7 @@
                 {% for related_place in other_chain_locations %}
                     <div class="related-place">
                         <h4 class="related-place__title"><a href="{{ related_place.get_absolute_url }}">{{ related_place.title }}</a></h4>
-                        <div class="related-place__address">{{ related_place.current_address|default:"" }}</div>
+                        <div class="related-place__address">{{ related_place.building_or_address }}</div>
                     </div>
                 {% endfor %}
             </div>

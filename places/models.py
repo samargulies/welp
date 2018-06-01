@@ -152,6 +152,11 @@ class Place(models.Model):
 	def current_address(self):
 		return self.address_set.first()
 
+	def building_or_address(self):
+		if self.building:
+			return self.building.title
+		return self.address_set.first().address if self.address_set.first() else ''
+
 	def previous_addresses(self):
 		return self.address_set.all()[1:]
 
