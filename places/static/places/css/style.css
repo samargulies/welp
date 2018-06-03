@@ -801,6 +801,12 @@ img {
     padding: 0 1rem;
 }
 
+.site-footer__nav__header {
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: #ccc;
+}
+
 .site-footer__nav {
     margin: 1rem auto;
     max-width: 640px;
@@ -808,8 +814,11 @@ img {
 }
 
 .site-footer__nav ul {
-    padding: 0;
-    list-style-position: inside;
+    list-style: none;
+}
+
+.site-footer__nav li {
+    margin-bottom: 1rem;
 }
 
 @media (max-width: 550px) {

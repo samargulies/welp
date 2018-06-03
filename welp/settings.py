@@ -204,5 +204,10 @@ THUMBNAIL_BASEDIR = 'thumbnails'
 THUMBNAIL_CACHE_DIMENSIONS = True
 THUMBNAIL_DEBUG = config.DEBUG
 
+# make sure pngs are kept as pngs
+THUMBNAIL_PRESERVE_EXTENSIONS = ('png',)
+# make sure all other uploads (eg TIFFs) are properly converted
+THUMBNAIL_TRANSPARENCY_EXTENSION = 'jpg'
+
 # Logging
 LOGGING = config.LOGGING
